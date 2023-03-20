@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -24,6 +25,29 @@ namespace CG_Project
         {
             for (int i = 0; i < n; i++)
                 SetElem(i, i, 1);
+        }
+
+        float GetCofactor(int row, int col)
+        {
+            Matrix miron = new Matrix(Rows - 1, Cols - 1);
+
+            for (int k = 0; k < row; k++)
+                for (int l = 0; l < col; l++)
+                    miron.SetElem(k, l, GetElem(k, l));
+
+            for (int k = row + 1; k < Rows; k++)
+                for (int l = col + 1; l < Cols; l++)
+                    miron.SetElem(k - 1, l - 1, GetElem(k, l));
+
+            for (int k = row + 1; k < Rows; k++)
+                for (int l = 0; l < col; l++)
+                    miron.SetElem(k - 1, l, GetElem(k, l));
+
+            for (int k = 0; k < row; k++)
+                for (int l = col + 1; l < Cols; l++)
+                    miron.SetElem(k, l - 1, GetElem(k, l));
+
+            return miron.Determinant() * ((row + col) % 2 == 0 ? 1 : -1);
         }
 
         public float Determinant()
@@ -67,6 +91,23 @@ namespace CG_Project
             return GetElem(nonZero, 0) * (nonZero % 2 == 0 ? 1 : -1) * simple.Determinant();
         }
 
+        public Matrix Inverse()
+        {
+            if (Rows != Cols) return null;
+
+            Matrix result = new Matrix(Rows, Cols);
+
+            for (int i = 0; i < Rows; i++)
+                for (int j = 0; j < Cols; j++)
+                {
+                    result.SetElem(i, j, GetCofactor(i, j));
+                }
+
+            result.Transpose();
+            result /= Determinant();
+            return result;
+        }
+
         public static Matrix operator +(Matrix matrix1, Matrix matrix2)
         {
             if (matrix1.Rows != matrix2.Rows ||
@@ -97,5 +138,36 @@ namespace CG_Project
 
         public static Matrix operator *(float scalar, Matrix matrix)
             => matrix * scalar;
+
+        public static Matrix operator /(Matrix matrix, float scalar)
+        {
+            if (scalar == 0) return null;
+            return matrix * (1 / scalar);
+        }
+
+        public static Matrix operator *(Matrix matrix1, Matrix matrix2)
+        {
+            if (matrix1.Cols != matrix2.Rows) return null;
+
+            Matrix result = new Matrix(matrix1.Rows, matrix2.Cols);
+
+            for (int i = 0; i <  result.Rows; i++)
+                for (int j = 0; j < result.Cols; j++)
+                {
+                    float elem = 0;
+
+                    for (int k = 0; k < matrix1.Cols; k++)
+                    {
+                        elem += matrix1.GetElem(i, k) * matrix2.GetElem(k, j);
+                    }
+
+                    result.SetElem(i, j, elem);
+                }
+
+            return result;
+        }
+
+        public static Matrix operator /(Matrix matrix1, Matrix matrix2)
+            => matrix1 * matrix2.Inverse();
     }
 }

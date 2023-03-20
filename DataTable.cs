@@ -50,6 +50,11 @@ namespace CG_Project
             else return _data[row, col];
         }
 
+        public void Transpose()
+        {
+            _transpose = !_transpose;
+        }
+
         public sealed override string ToString()
         {
             string result = "";

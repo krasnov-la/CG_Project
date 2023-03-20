@@ -17,6 +17,6 @@ class Program
         float[] dataV = { 1, 2, 3, 4 };
 
         Matrix M = new Matrix(data);
-        Console.WriteLine(M.Determinant());
+        Console.WriteLine((M * M.Inverse()).ToString());
     }
 }
