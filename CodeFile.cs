@@ -17,10 +17,6 @@ class Program
         float[] dataV = { 1, 2, 3, 4 };
 
         Matrix M = new Matrix(data);
-        Matrix M1 = new Matrix(data);
-
-        Vector vect1 = new Vector(dataV);
-        Vector vect2 = new Vector(dataV);
-        Console.WriteLine();
+        Console.WriteLine(M.Determinant());
     }
 }

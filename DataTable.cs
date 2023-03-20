@@ -13,6 +13,13 @@ namespace CG_Project
         int _cols;
         bool _transpose = false;
 
+        public DataTable(int rows, int cols)
+        {
+            _rows = rows;
+            _cols = cols;
+            _data = new float[rows, cols];
+        }
+
         public int Rows
         {
             get
