@@ -19,6 +19,6 @@ class Program
 
         Vector v1 = new Vector(data1);
         Vector v2 = new Vector(data2);
-        Console.WriteLine((v1).ToString());
+        Console.WriteLine(v1 % v2);
     }
 }

@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-
 namespace CG_Project
 {
     public class Point : DataTable
@@ -39,6 +38,7 @@ namespace CG_Project
             return result;
         }
 
-         
+        public static Point operator -(Point point, Vector vector)
+            => point + (-1 * vector);
     }
 }

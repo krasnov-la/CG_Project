@@ -27,27 +27,62 @@ namespace CG_Project
                 SetElem(i, i, 1);
         }
 
+        public Matrix(Vector vector) : base(vector.Rows, vector.Cols)
+        {
+            for (int i = 0; i < vector.Rows; i++)
+                for (int j = 0; j < vector.Cols; j++)
+                    SetElem(i, j, vector.GetElem(i, j));
+        }
+
+        public float BilinearForm(Vector vector1, Vector vector2)
+        {
+            if (vector1.Rows != Rows || vector2.Rows != Cols) return float.NaN;
+
+            float result = 0;
+
+            for (int i = 0; i < Rows; i++)
+                for (int j = 0; j < Cols; j++)
+                    result += GetElem(i, j) * vector1.GetElem(i) * vector2.GetElem(j);
+
+            return result;
+        }
+
+        public static Matrix Gram(Vector[] vectors)
+        {
+            int normal = vectors[0].Rows;
+            for (int i = 1;i < vectors.Length; i++)
+                if (vectors[i].Rows != normal) return null;
+
+            Matrix result = new Matrix(vectors.Length, vectors.Length);
+
+            for (int i = 0; i < result.Rows; i++)
+                for (int j = 0; j < result.Cols; j++)
+                    result.SetElem(i, j, vectors[i].ScalarProduct(vectors[j]));
+
+            return result;
+        }
+
         float GetCofactor(int row, int col)
         {
-            Matrix miron = new Matrix(Rows - 1, Cols - 1);
+            Matrix minor = new Matrix(Rows - 1, Cols - 1);
 
             for (int k = 0; k < row; k++)
                 for (int l = 0; l < col; l++)
-                    miron.SetElem(k, l, GetElem(k, l));
+                    minor.SetElem(k, l, GetElem(k, l));
 
             for (int k = row + 1; k < Rows; k++)
                 for (int l = col + 1; l < Cols; l++)
-                    miron.SetElem(k - 1, l - 1, GetElem(k, l));
+                    minor.SetElem(k - 1, l - 1, GetElem(k, l));
 
             for (int k = row + 1; k < Rows; k++)
                 for (int l = 0; l < col; l++)
-                    miron.SetElem(k - 1, l, GetElem(k, l));
+                    minor.SetElem(k - 1, l, GetElem(k, l));
 
             for (int k = 0; k < row; k++)
                 for (int l = col + 1; l < Cols; l++)
-                    miron.SetElem(k, l - 1, GetElem(k, l));
+                    minor.SetElem(k, l - 1, GetElem(k, l));
 
-            return miron.Determinant() * ((row + col) % 2 == 0 ? 1 : -1);
+            return minor.Determinant() * ((row + col) % 2 == 0 ? 1 : -1);
         }
 
         public float Determinant()
@@ -169,5 +204,17 @@ namespace CG_Project
 
         public static Matrix operator /(Matrix matrix1, Matrix matrix2)
             => matrix1 * matrix2.Inverse();
+
+        public static Matrix operator *(Matrix matrix, Vector vector)
+        {
+            Matrix vectorMatrix = new Matrix(vector);
+            return matrix * vectorMatrix;
+        }
+
+        public static Matrix operator *(Vector vector, Matrix matrix)
+        {
+            Matrix vectorMatrix = new Matrix(vector);
+            return vectorMatrix * matrix;
+        }
     }
 }

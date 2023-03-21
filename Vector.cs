@@ -6,8 +6,6 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
-//done
-
 namespace CG_Project
 {
     public class Vector : Point
@@ -16,7 +14,13 @@ namespace CG_Project
 
         public Vector(float[] data) : base(data) { }
 
-        float ScalarProduct(Vector vector)
+        public Vector(Matrix matrix) : base(matrix.Rows)
+        {
+            for (int i = 0; i < matrix.Rows; i++)
+                SetElem(i, matrix.GetElem(i, 0));
+        }
+
+        public float ScalarProduct(Vector vector)
         {
             if (Rows != vector.Rows) return float.NaN;
 
@@ -28,7 +32,7 @@ namespace CG_Project
             return result;
         }
 
-        Vector VectorProduct(Vector vector)
+        public Vector VectorProduct(Vector vector)
         {
             if (vector.Rows != 3 || Rows != 3) return null;
 
@@ -48,7 +52,7 @@ namespace CG_Project
 
         public float Lenght()
         {
-            return (float)Math.Sqrt(ScalarProduct(this));
+            return (float)Math.Sqrt(this % this);
         }
 
         public static Vector operator +(Vector vector1, Vector vector2)
@@ -89,7 +93,7 @@ namespace CG_Project
         }
 
         public static float operator %(Vector vector1, Vector vector2)
-            => vector1.ScalarProduct(vector2);
+            => VectorSpace.ScalarProduct(vector1, vector2);
 
         public static Vector operator ^(Vector vector1, Vector vector2)
             => vector1.VectorProduct(vector2);

@@ -55,6 +55,9 @@ namespace CG_Project
             _transpose = !_transpose;
         }
 
+        public bool IsTransposed()
+            => _transpose;
+
         public sealed override string ToString()
         {
             string result = "";
