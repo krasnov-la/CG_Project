@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CG_Project
 {
-    class Matrix : DataTable
+    public class Matrix : DataTable
     {
         public Matrix(int rows, int cols) : base(rows, cols) { }
 

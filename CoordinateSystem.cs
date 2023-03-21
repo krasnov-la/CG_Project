@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CG_Project
 {
-    internal class CoordinateSystem
+    public class CoordinateSystem
     {
     }
 }

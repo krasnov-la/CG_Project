@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CG_Project
 {
-    internal class VectorSpace
+    public class VectorSpace
     {
     }
 }

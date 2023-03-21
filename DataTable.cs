@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CG_Project
 {
-    abstract class DataTable
+    public abstract class DataTable
     {
         float[,] _data;
         int _rows;
