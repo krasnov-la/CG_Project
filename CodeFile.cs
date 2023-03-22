@@ -9,16 +9,9 @@ class Program
 {
     static void Main(string[] args)
     {
-        float[,] data = { {5, 1, 7, 1 }, 
-                          {1, 9, 1, 6 },  
-                          {8, 3, 2, 7 }, 
-                          {9, 1, 1, 6 }, };
-
-        float[] data1 = { 2, 1, 4 };
-        float[] data2 = { 1, 6, 3 };
-
-        Vector v1 = new Vector(data1);
-        Vector v2 = new Vector(data2);
-        Console.WriteLine(v1 % v2);
+        VectorSpace vectorSpace = new VectorSpace(new Vector(1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1));
+        Vector v1 = new Vector(1, 6, 7);
+        Vector v2 = new Vector(2, 1, 3);
+        Console.WriteLine(vectorSpace.ScalarProduct(v1, v2));
     }
 }

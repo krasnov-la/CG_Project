@@ -12,7 +12,7 @@ namespace CG_Project
     {
         public Vector(int dim) : base(dim) { }
 
-        public Vector(float[] data) : base(data) { }
+        public Vector(params float[] data) : base(data) { }
 
         public Vector(Matrix matrix) : base(matrix.Rows)
         {
@@ -50,7 +50,7 @@ namespace CG_Project
             return result;
         }
 
-        public float Lenght()
+        public float Lenght() //???????????????????
         {
             return (float)Math.Sqrt(this % this);
         }
@@ -93,7 +93,7 @@ namespace CG_Project
         }
 
         public static float operator %(Vector vector1, Vector vector2)
-            => VectorSpace.ScalarProduct(vector1, vector2);
+            => vector1.ScalarProduct(vector2);
 
         public static Vector operator ^(Vector vector1, Vector vector2)
             => vector1.VectorProduct(vector2);

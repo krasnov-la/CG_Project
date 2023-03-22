@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace CG_Project
 {
-    public static class CoordinateSystem
+    public class CoordinateSystem
     {
-        static Point InitPoint = new Point(new float[] { 0, 0, 0 });
+        public Point _initPoint;
+        public VectorSpace _vs;
+
+        public CoordinateSystem(Point inutPoint, VectorSpace vs)
+        {
+            _initPoint = inutPoint;
+            _vs = vs;
+        }
     }
 }

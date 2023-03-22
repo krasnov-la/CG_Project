@@ -11,10 +11,10 @@ namespace CG_Project
     public class Point : DataTable
     {
         public Point(int dim) : base(dim, 1) { }
-        
-        public Point(float[] data) : base(data.Length, 1)
+
+        public Point(params float[] data) : base(data.Length, 1)
         {
-            for (int i = 0;  i < data.Length; i++)
+            for (int i = 0; i < data.Length; i++)
                 SetElem(i, data[i]);
         }
 

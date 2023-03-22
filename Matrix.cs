@@ -57,7 +57,7 @@ namespace CG_Project
 
             for (int i = 0; i < result.Rows; i++)
                 for (int j = 0; j < result.Cols; j++)
-                    result.SetElem(i, j, vectors[i].ScalarProduct(vectors[j]));
+                    result.SetElem(i, j, vectors[i] % vectors[j]);
 
             return result;
         }
