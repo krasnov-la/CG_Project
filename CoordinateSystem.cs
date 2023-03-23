@@ -11,9 +11,9 @@ namespace CG_Project
         public Point _initPoint;
         public VectorSpace _vs;
 
-        public CoordinateSystem(Point inutPoint, VectorSpace vs)
+        public CoordinateSystem(Point initPoint, VectorSpace vs)
         {
-            _initPoint = inutPoint;
+            _initPoint = initPoint;
             _vs = vs;
         }
     }
