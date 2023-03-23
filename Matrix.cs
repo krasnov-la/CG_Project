@@ -36,7 +36,7 @@ namespace CG_Project
 
         public float BilinearForm(Vector vector1, Vector vector2)
         {
-            if (vector1.Rows != Rows || vector2.Rows != Cols) return float.NaN;
+            if (vector1.Rows != Rows || vector2.Rows != Cols || Rows != Cols) return float.NaN;
 
             float result = 0;
 
@@ -47,7 +47,7 @@ namespace CG_Project
             return result;
         }
 
-        public static Matrix Gram(Vector[] vectors)
+        public static Matrix Gram(params Vector[] vectors)
         {
             int normal = vectors[0].Rows;
             for (int i = 1;i < vectors.Length; i++)
@@ -62,8 +62,10 @@ namespace CG_Project
             return result;
         }
 
-        float GetCofactor(int row, int col)
+        public float GetCofactor(int row, int col)
         {
+            if (Rows != Cols) return float.NaN;
+
             Matrix minor = new Matrix(Rows - 1, Cols - 1);
 
             for (int k = 0; k < row; k++)
@@ -151,7 +153,7 @@ namespace CG_Project
             Matrix result = new Matrix(matrix1.Rows, matrix1.Cols);
 
             for (int i = 0; i < matrix1.Rows; i++)
-                for (int j = 0; j < matrix2.Rows; j++)
+                for (int j = 0; j < matrix1.Cols; j++)
                     result.SetElem(i, j, 
                         matrix1.GetElem(i, j) + matrix2.GetElem(i, j));
             

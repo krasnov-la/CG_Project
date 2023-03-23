@@ -69,11 +69,11 @@ namespace CG_Project
                     result += GetElem(i, j) + " ";
                 }
                 
-                result.Remove(result.Length - 1, 1);
+                result = result.Remove(result.Length - 1, 1);
                 result += "\n";
             }
             
-            result.Remove(result.Length - 1, 1);
+            result = result.Remove(result.Length - 1, 1);
 
             return result;
         }

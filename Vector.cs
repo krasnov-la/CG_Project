@@ -22,14 +22,8 @@ namespace CG_Project
 
         public float ScalarProduct(Vector vector)
         {
-            if (Rows != vector.Rows) return float.NaN;
-
-            float result = 0;
-
-            for (int i = 0; i < Rows; i++)
-                result += GetElem(i) * vector.GetElem(i);
-
-            return result;
+            Matrix identity = new Matrix(this.Rows);
+            return identity.BilinearForm(this, vector);
         }
 
         public Vector VectorProduct(Vector vector)
@@ -50,7 +44,7 @@ namespace CG_Project
             return result;
         }
 
-        public float Lenght() //???????????????????
+        public float Lenght()
         {
             return (float)Math.Sqrt(this % this);
         }

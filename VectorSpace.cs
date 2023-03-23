@@ -12,13 +12,20 @@ namespace CG_Project
 
         public VectorSpace(params Vector[] basis)
         {
+            //Поставить проверку на некорректный ввод
             _basis = basis;
         }
 
         public float ScalarProduct(Vector vector1, Vector vector2)
         {
+            //Поставить проверку на некорректный ввод
             vector1.Transpose();
             return (vector1 * Matrix.Gram(_basis) * vector2).GetElem(0, 0);
+        }
+
+        public float Length(Vector vector)
+        {
+            return (float)Math.Sqrt(this.ScalarProduct(vector, vector));
         }
 
         public Vector AsVector(Point point)
