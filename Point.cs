@@ -15,25 +15,34 @@ namespace CG_Project
         public Point(params float[] data) : base(data.Length, 1)
         {
             for (int i = 0; i < data.Length; i++)
-                SetElem(i, data[i]);
+                this[i] = data[i];
         }
 
-        public void SetElem(int row, float value)
+        public float this[int i]
+        {
+            get { return GetElem(i); }
+            set { SetElem(i, value); }
+        }
+
+        void SetElem(int row, float value)
         {
             base.SetElem(row, 0, value);
         }
 
-        public float GetElem(int row)
+        float GetElem(int row)
         {
             return base.GetElem(row, 0);
         }
 
         public static Point operator +(Point point, Vector vector)
         {
+            if (vector.Rows != point.Rows ||
+                vector.Cols != point.Cols) throw new DimensionExeption();
+
             Point result = new Point(point.Rows);
 
             for (int i = 0;i < point.Rows;i++)
-                result.SetElem(i, point.GetElem(i) + vector.GetElem(i));
+                result[i] = point[i] + vector[i];
             
             return result;
         }

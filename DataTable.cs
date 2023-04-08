@@ -38,14 +38,23 @@ namespace CG_Project
             }
         }
 
-        public void SetElem(int row, int col, float value)
+        public virtual float this[int i, int j]
         {
+            get { return GetElem(i, j); }
+            set { SetElem(i, j, value);}
+        }
+
+
+        protected void SetElem(int row, int col, float value)
+        {
+            if (row < 0 || col < 0 || row >= Rows || col >= Cols) throw new OutOfTableExeption();
             if (_transpose) _data[col, row] = value;
             else _data[row, col] = value;
         }
 
-        public float GetElem(int row, int col)
+        protected float GetElem(int row, int col)
         {
+            if (row < 0 || col < 0 || row >= Rows || col >= Cols) throw new OutOfTableExeption();
             if (_transpose) return _data[col, row];
             else return _data[row, col];
         }
@@ -66,7 +75,7 @@ namespace CG_Project
             {
                 for (int  j = 0; j < Cols; j++)
                 {
-                    result += GetElem(i, j) + " ";
+                    result += this[i, j] + " ";
                 }
                 
                 result = result.Remove(result.Length - 1, 1);

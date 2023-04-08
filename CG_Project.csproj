@@ -46,6 +46,7 @@
     <Compile Include="CodeFile.cs" />
     <Compile Include="CoordinateSystem.cs" />
     <Compile Include="DataTable.cs" />
+    <Compile Include="EngineExeptions.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

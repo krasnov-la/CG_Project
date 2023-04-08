@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 
 namespace CG_Project
 {
@@ -18,31 +18,76 @@ namespace CG_Project
         {
             for (int i = 0;i < Rows;i++)
                 for (int j = 0;j < Cols;j++)
-                    SetElem(i, j, data[i,j]);
+                    this[i, j] = data[i, j];
         }
 
         public Matrix(int n) : base(n, n)
         {
             for (int i = 0; i < n; i++)
-                SetElem(i, i, 1);
+                this[i, i] = 1;
         }
 
         public Matrix(Vector vector) : base(vector.Rows, vector.Cols)
         {
             for (int i = 0; i < vector.Rows; i++)
                 for (int j = 0; j < vector.Cols; j++)
-                    SetElem(i, j, vector.GetElem(i, j));
+                    this[i, j] = vector[i,j];
         }
+
+        public static Matrix RotationX(float angle)
+        {
+            angle = (angle % 360) * (float)Math.PI / 180;
+            Matrix res = new Matrix(3);
+
+            res[1, 1] = (float)Math.Cos(angle);
+            res[2, 2] = (float)Math.Cos(angle);
+
+            res[1, 2] = (float)-Math.Sin(angle);
+            res[2, 1] = (float)Math.Sin(angle);
+
+            return res;
+        }
+
+        public static Matrix RotationY(float angle)
+        {
+            angle = (angle % 360) * (float)Math.PI / 180;
+            Matrix res = new Matrix(3);
+
+            res[0, 0] = (float)Math.Cos(angle);
+            res[2, 2] = (float)Math.Cos(angle);
+
+            res[0, 2] = (float)Math.Sin(angle);
+            res[2, 0] = (float)-Math.Sin(angle);
+
+            return res;
+        }
+
+        public static Matrix RotationZ(float angle)
+        {
+            angle = (angle % 360) * (float)Math.PI / 180;
+            Matrix res = new Matrix(3);
+
+            res[0, 0] = (float)Math.Cos(angle);
+            res[1, 1] = (float)Math.Cos(angle);
+
+            res[0, 1] = (float)-Math.Sin(angle);
+            res[1, 0] = (float)Math.Sin(angle);
+
+            return res;
+        }
+
+        public static Matrix Rotation(int x, int y, int z)
+            => Matrix.RotationX(x) * Matrix.RotationY(y) * Matrix.RotationZ(z);
 
         public float BilinearForm(Vector vector1, Vector vector2)
         {
-            if (vector1.Rows != Rows || vector2.Rows != Cols || Rows != Cols) return float.NaN;
+            if (vector1.Rows != Rows || vector2.Rows != Cols || Rows != Cols) throw new DimensionExeption();
 
             float result = 0;
 
             for (int i = 0; i < Rows; i++)
                 for (int j = 0; j < Cols; j++)
-                    result += GetElem(i, j) * vector1.GetElem(i) * vector2.GetElem(j);
+                    result += this[i, j] * vector1[i] * vector2[j];
 
             return result;
         }
@@ -51,53 +96,53 @@ namespace CG_Project
         {
             int normal = vectors[0].Rows;
             for (int i = 1;i < vectors.Length; i++)
-                if (vectors[i].Rows != normal) return null;
+                if (vectors[i].Rows != normal) throw new DimensionExeption();
 
             Matrix result = new Matrix(vectors.Length, vectors.Length);
 
             for (int i = 0; i < result.Rows; i++)
                 for (int j = 0; j < result.Cols; j++)
-                    result.SetElem(i, j, vectors[i] % vectors[j]);
+                    result[i, j] = vectors[i] % vectors[j];
 
             return result;
         }
 
         public float GetCofactor(int row, int col)
         {
-            if (Rows != Cols) return float.NaN;
+            if (Rows != Cols) throw new DimensionExeption();
 
             Matrix minor = new Matrix(Rows - 1, Cols - 1);
 
             for (int k = 0; k < row; k++)
                 for (int l = 0; l < col; l++)
-                    minor.SetElem(k, l, GetElem(k, l));
+                    minor[k, l] = this[k, l];
 
             for (int k = row + 1; k < Rows; k++)
                 for (int l = col + 1; l < Cols; l++)
-                    minor.SetElem(k - 1, l - 1, GetElem(k, l));
+                    minor[k - 1, l - 1] = this[k, l];
 
             for (int k = row + 1; k < Rows; k++)
                 for (int l = 0; l < col; l++)
-                    minor.SetElem(k - 1, l, GetElem(k, l));
+                    minor[k - 1, l] = this[k, l];
 
             for (int k = 0; k < row; k++)
                 for (int l = col + 1; l < Cols; l++)
-                    minor.SetElem(k, l - 1, GetElem(k, l));
+                    minor[k, l - 1] = this[k, l];
 
             return minor.Determinant() * ((row + col) % 2 == 0 ? 1 : -1);
         }
 
         public float Determinant()
         {
-            if (Rows != Cols) return float.NaN;
+            if (Rows != Cols) throw new DimensionExeption();
 
-            if (Rows == 1) return GetElem(0, 0);
+            if (Rows == 1) return this[0, 0];
 
             int nonZero = -1;
 
             for (int i = 0; i < Rows;i++)
             {
-                if (GetElem(i, 0) != 0)
+                if (this[i, 0] != 0)
                 {
                     nonZero = i;
                     break;
@@ -110,34 +155,34 @@ namespace CG_Project
 
             for (int i = 0;i < nonZero; i++)
                 for (int j = 0; j < Cols - 1;j++)
-                    simple.SetElem(i, j, GetElem(i, j + 1));
+                    simple[i, j] = this[i, j + 1];
 
             for (int i = nonZero + 1; i < Rows; i++)
             {
-                float simplyficationScalar = GetElem(i, 0) / GetElem(nonZero, 0);
+                float simplyficationScalar = this[i, 0] / this[nonZero, 0];
 
                 for (int j = 0; j < Cols - 1; j++)
                 {
-                    float simpleEl = GetElem(i, j + 1)
-                       - GetElem(nonZero, j + 1) * simplyficationScalar;
+                    float simpleEl = this[i, j + 1]
+                       - this[nonZero, j + 1] * simplyficationScalar;
 
-                    simple.SetElem(i - 1, j, simpleEl);
+                    simple[i - 1, j] = simpleEl;
                 }
             }
 
-            return GetElem(nonZero, 0) * (nonZero % 2 == 0 ? 1 : -1) * simple.Determinant();
+            return this[nonZero, 0] * (nonZero % 2 == 0 ? 1 : -1) * simple.Determinant();
         }
 
         public Matrix Inverse()
         {
-            if (Rows != Cols) return null;
+            if (Rows != Cols) throw new DimensionExeption();
 
             Matrix result = new Matrix(Rows, Cols);
 
             for (int i = 0; i < Rows; i++)
                 for (int j = 0; j < Cols; j++)
                 {
-                    result.SetElem(i, j, GetCofactor(i, j));
+                    result[i, j] = GetCofactor(i, j);
                 }
 
             result.Transpose();
@@ -148,14 +193,13 @@ namespace CG_Project
         public static Matrix operator +(Matrix matrix1, Matrix matrix2)
         {
             if (matrix1.Rows != matrix2.Rows ||
-                matrix1.Cols != matrix2.Cols) return null;
+                matrix1.Cols != matrix2.Cols) throw new DimensionExeption();
 
             Matrix result = new Matrix(matrix1.Rows, matrix1.Cols);
 
             for (int i = 0; i < matrix1.Rows; i++)
                 for (int j = 0; j < matrix1.Cols; j++)
-                    result.SetElem(i, j, 
-                        matrix1.GetElem(i, j) + matrix2.GetElem(i, j));
+                    result[i, j] = matrix1[i, j] + matrix2[i, j];
             
             return result;
         }
@@ -168,7 +212,7 @@ namespace CG_Project
             Matrix result = new Matrix(matrix.Rows, matrix.Cols);
             for (int i = 0; i < matrix.Rows; i++)
                 for (int j = 0; j < matrix.Cols; j++)
-                    result.SetElem(i, j, scalar * matrix.GetElem(i, j));
+                    result[i, j] = scalar * matrix[i, j];
 
             return result;
         }
@@ -184,7 +228,7 @@ namespace CG_Project
 
         public static Matrix operator *(Matrix matrix1, Matrix matrix2)
         {
-            if (matrix1.Cols != matrix2.Rows) return null;
+            if (matrix1.Cols != matrix2.Rows) throw new DimensionExeption();
 
             Matrix result = new Matrix(matrix1.Rows, matrix2.Cols);
 
@@ -195,10 +239,10 @@ namespace CG_Project
 
                     for (int k = 0; k < matrix1.Cols; k++)
                     {
-                        elem += matrix1.GetElem(i, k) * matrix2.GetElem(k, j);
+                        elem += matrix1[i, k]  * matrix2[k, j];
                     }
 
-                    result.SetElem(i, j, elem);
+                    result[i, j] = elem;
                 }
 
             return result;
@@ -218,5 +262,19 @@ namespace CG_Project
             Matrix vectorMatrix = new Matrix(vector);
             return vectorMatrix * matrix;
         }
+
+        //Углы тейта брайана + поворот
+
+        //Кастомные исключения
+        //Class EngineExeptions() { Поля для специфических ошибок }
+
+        //Модульные тесты
+        //ПЕРЕИМЕНОВАТЬ 
+
+        //Change log
+
+        //1) Документация
+        //2) Лог
+        //3) Тесты
     }
 }

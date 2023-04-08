@@ -17,7 +17,7 @@ namespace CG_Project
         public Vector(Matrix matrix) : base(matrix.Rows)
         {
             for (int i = 0; i < matrix.Rows; i++)
-                SetElem(i, matrix.GetElem(i, 0));
+                this[i] = matrix[i, 0];
         }
 
         public float ScalarProduct(Vector vector)
@@ -28,18 +28,18 @@ namespace CG_Project
 
         public Vector VectorProduct(Vector vector)
         {
-            if (vector.Rows != 3 || Rows != 3) return null;
+            if (vector.Rows != 3 || Rows != 3) throw new DimensionExeption();
 
             Vector result = new Vector(3);
 
-            result.SetElem(0, this.GetElem(1) * vector.GetElem(2) -
-                              this.GetElem(2) * vector.GetElem(1));
+            result[0] = this[1] * vector[2] -
+                        this[2] * vector[1];
 
-            result.SetElem(1, this.GetElem(2) * vector.GetElem(0) -
-                              this.GetElem(0) * vector.GetElem(2));
+            result[1] = this[2] * vector[0] -
+                        this[0] * vector[2];
 
-            result.SetElem(2, this.GetElem(0) * vector.GetElem(1) -
-                              this.GetElem(1) * vector.GetElem(0));
+            result[2] = this[0] * vector[1] - 
+                        this[1] * vector[0];
 
             return result;
         }
@@ -51,13 +51,14 @@ namespace CG_Project
 
         public static Vector operator +(Vector vector1, Vector vector2)
         {
-            if (vector1.Rows != vector2.Rows) return null;
+            if (vector1.Rows != vector2.Rows ||
+                vector1.Cols != vector2.Cols) throw new DimensionExeption();
 
             Vector result = new Vector(vector1.Rows);
 
             for (int i = 0; i < vector1.Rows; i++)
             {
-                result.SetElem(i, vector1.GetElem(i) + vector2.GetElem(i));
+                result[i] = vector1[i] + vector2[i];
             }
 
             return result;
@@ -71,7 +72,7 @@ namespace CG_Project
             Vector result = new Vector(vector.Rows);
             
             for (int i = 0; i < vector.Rows; i++)
-                result.SetElem(i, scalar * vector.GetElem(i));
+                result[i] = scalar * vector[i];
 
             return result;
         }
@@ -81,7 +82,7 @@ namespace CG_Project
 
         public static Vector operator /(Vector vector, float scalar)
         {
-            if (scalar == 0) return null;
+            if (scalar == 0) throw new DivideByZeroException();
 
             return vector * (1 / scalar);
         }
