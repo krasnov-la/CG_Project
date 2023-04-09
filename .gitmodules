@@ -1,0 +1,3 @@
+[submodule "CG_Project.Tests"]
+	path = CG_Project.Tests
+	url = https://github.com/Le0Bonhart/CG_Project.Tests
