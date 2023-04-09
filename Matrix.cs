@@ -76,6 +76,27 @@ namespace CG_Project
             return res;
         }
 
+        public static Matrix GeneralRotation(int dim, int axisInd1, int axisInd2, float angle)
+        {
+            angle = (angle % 360) * (float)Math.PI / 180;
+            Matrix res = new Matrix(dim);
+
+            if (axisInd1 >= dim || axisInd2 >= dim) throw new DimensionExeption();
+
+            res[axisInd1, axisInd1] = (float)Math.Cos(angle);
+            res[axisInd2, axisInd2] = (float)Math.Cos(angle);
+            res[axisInd1, axisInd2] = -(float)Math.Sin(angle);
+            res[axisInd2, axisInd1] = (float)Math.Sin(angle);
+
+            if ((axisInd1 + axisInd2) % 2 == 0)
+            {
+                res[axisInd1, axisInd2] *= -1;
+                res[axisInd2, axisInd1] *= -1;
+            }
+
+            return res;
+        }
+
         public static Matrix Rotation(int x, int y, int z)
             => Matrix.RotationX(x) * Matrix.RotationY(y) * Matrix.RotationZ(z);
 

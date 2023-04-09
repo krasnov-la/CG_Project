@@ -14,7 +14,8 @@ class Program
         Vector v2 = new Vector(2, 1, 3);
         Console.WriteLine(v1 % v2);*/
 
-        Console.WriteLine(Matrix.Rotation(45, 45, 45));
+        Console.WriteLine(Matrix.RotationX(90));
+        Console.WriteLine(Matrix.GeneralRotation(3, 1, 2, 90));
     }
 
     //Class EngineExeption
