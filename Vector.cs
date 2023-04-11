@@ -14,21 +14,15 @@ namespace CG_Project
 
         public Vector(params float[] data) : base(data) { }
 
-        public Vector(Matrix matrix) : base(matrix.Rows)
-        {
-            for (int i = 0; i < matrix.Rows; i++)
-                this[i] = matrix[i, 0];
-        }
-
-        public float ScalarProduct(Vector vector)
+        float ScalarProduct(Vector vector)
         {
             Matrix identity = new Matrix(this.Rows);
             return identity.BilinearForm(this, vector);
         }
 
-        public Vector VectorProduct(Vector vector)
+        Vector VectorProduct(Vector vector)
         {
-            if (vector.Rows != 3 || Rows != 3) throw new DimensionExeption();
+            if (vector.Rows != 3 || Rows != 3) throw new DimensionException();
 
             Vector result = new Vector(3);
 
@@ -49,10 +43,22 @@ namespace CG_Project
             return (float)Math.Sqrt(this % this);
         }
 
+        public static explicit operator Vector(Matrix matrix)
+        {
+            if (matrix.Cols != 1) throw new DimensionException();
+
+            Vector res = new Vector(matrix.Rows);
+
+            for (int i = 0; i < matrix.Rows; i++)
+                res[i] = matrix[i, 0];
+
+            return res;
+        }
+
         public static Vector operator +(Vector vector1, Vector vector2)
         {
             if (vector1.Rows != vector2.Rows ||
-                vector1.Cols != vector2.Cols) throw new DimensionExeption();
+                vector1.Cols != vector2.Cols) throw new DimensionException();
 
             Vector result = new Vector(vector1.Rows);
 

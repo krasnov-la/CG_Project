@@ -27,13 +27,6 @@ namespace CG_Project
                 this[i, i] = 1;
         }
 
-        public Matrix(Vector vector) : base(vector.Rows, vector.Cols)
-        {
-            for (int i = 0; i < vector.Rows; i++)
-                for (int j = 0; j < vector.Cols; j++)
-                    this[i, j] = vector[i,j];
-        }
-
         public static Matrix RotationX(float angle)
         {
             angle = (angle % 360) * (float)Math.PI / 180;
@@ -81,7 +74,7 @@ namespace CG_Project
             angle = (angle % 360) * (float)Math.PI / 180;
             Matrix res = new Matrix(dim);
 
-            if (axisInd1 >= dim || axisInd2 >= dim) throw new DimensionExeption();
+            if (axisInd1 >= dim || axisInd2 >= dim) throw new DimensionException();
 
             res[axisInd1, axisInd1] = (float)Math.Cos(angle);
             res[axisInd2, axisInd2] = (float)Math.Cos(angle);
@@ -97,12 +90,12 @@ namespace CG_Project
             return res;
         }
 
-        public static Matrix Rotation(int x, int y, int z)
+        public static Matrix Rotation(float x, float y, float z)
             => Matrix.RotationX(x) * Matrix.RotationY(y) * Matrix.RotationZ(z);
 
         public float BilinearForm(Vector vector1, Vector vector2)
         {
-            if (vector1.Rows != Rows || vector2.Rows != Cols || Rows != Cols) throw new DimensionExeption();
+            if (vector1.Rows != Rows || vector2.Rows != Cols || Rows != Cols) throw new DimensionException();
 
             float result = 0;
 
@@ -117,7 +110,7 @@ namespace CG_Project
         {
             int normal = vectors[0].Rows;
             for (int i = 1;i < vectors.Length; i++)
-                if (vectors[i].Rows != normal) throw new DimensionExeption();
+                if (vectors[i].Rows != normal) throw new DimensionException();
 
             Matrix result = new Matrix(vectors.Length, vectors.Length);
 
@@ -130,7 +123,7 @@ namespace CG_Project
 
         public float GetCofactor(int row, int col)
         {
-            if (Rows != Cols) throw new DimensionExeption();
+            if (Rows != Cols) throw new DimensionException();
 
             Matrix minor = new Matrix(Rows - 1, Cols - 1);
 
@@ -155,7 +148,7 @@ namespace CG_Project
 
         public float Determinant()
         {
-            if (Rows != Cols) throw new DimensionExeption();
+            if (Rows != Cols) throw new DimensionException();
 
             if (Rows == 1) return this[0, 0];
 
@@ -196,7 +189,7 @@ namespace CG_Project
 
         public Matrix Inverse()
         {
-            if (Rows != Cols) throw new DimensionExeption();
+            if (Rows != Cols) throw new DimensionException();
 
             Matrix result = new Matrix(Rows, Cols);
 
@@ -214,7 +207,7 @@ namespace CG_Project
         public static Matrix operator +(Matrix matrix1, Matrix matrix2)
         {
             if (matrix1.Rows != matrix2.Rows ||
-                matrix1.Cols != matrix2.Cols) throw new DimensionExeption();
+                matrix1.Cols != matrix2.Cols) throw new DimensionException();
 
             Matrix result = new Matrix(matrix1.Rows, matrix1.Cols);
 
@@ -249,7 +242,7 @@ namespace CG_Project
 
         public static Matrix operator *(Matrix matrix1, Matrix matrix2)
         {
-            if (matrix1.Cols != matrix2.Rows) throw new DimensionExeption();
+            if (matrix1.Cols != matrix2.Rows) throw new DimensionException();
 
             Matrix result = new Matrix(matrix1.Rows, matrix2.Cols);
 
@@ -269,33 +262,29 @@ namespace CG_Project
             return result;
         }
 
+        public static explicit operator Matrix(Vector vector)
+        {
+            Matrix res = new Matrix(vector.Rows, vector.Cols);
+            for (int i = 0; i < res.Rows; i++)
+                for (int j = 0; j < res.Cols; j++)
+                    res[i, j] = vector[i, j];
+
+            return res;
+        }
+
         public static Matrix operator /(Matrix matrix1, Matrix matrix2)
             => matrix1 * matrix2.Inverse();
 
         public static Matrix operator *(Matrix matrix, Vector vector)
         {
-            Matrix vectorMatrix = new Matrix(vector);
+            Matrix vectorMatrix = (Matrix)vector;
             return matrix * vectorMatrix;
         }
 
         public static Matrix operator *(Vector vector, Matrix matrix)
         {
-            Matrix vectorMatrix = new Matrix(vector);
+            Matrix vectorMatrix = (Matrix)vector;
             return vectorMatrix * matrix;
         }
-
-        //Углы тейта брайана + поворот
-
-        //Кастомные исключения
-        //Class EngineExeptions() { Поля для специфических ошибок }
-
-        //Модульные тесты
-        //ПЕРЕИМЕНОВАТЬ 
-
-        //Change log
-
-        //1) Документация
-        //2) Лог
-        //3) Тесты
     }
 }

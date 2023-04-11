@@ -37,7 +37,7 @@ namespace CG_Project
         public static Point operator +(Point point, Vector vector)
         {
             if (vector.Rows != point.Rows ||
-                vector.Cols != point.Cols) throw new DimensionExeption();
+                vector.Cols != point.Cols) throw new DimensionException();
 
             Point result = new Point(point.Rows);
 

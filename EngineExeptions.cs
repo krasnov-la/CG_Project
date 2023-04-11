@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace CG_Project
 {
-    public class OutOfTableExeption : ApplicationException
+    public class OutOfTableException : ApplicationException
     {
-        public OutOfTableExeption() : base("Indexes exeed data table dimensions") { }
+        public OutOfTableException() : base("Indexes exceed data table dimensions") { }
     }
 
-    public class DimensionExeption : ApplicationException
+    public class DimensionException : ApplicationException
     {
-        public DimensionExeption() : base("Operation invalid with current operand dimensions") { }
+        public DimensionException() : base("Operation invalid with current operand dimensions") { }
     }
 
-    public class EmptyBasisExeption : ApplicationException
+    public class EmptyBasisException : ApplicationException
     {
-        public EmptyBasisExeption() : base("Basis can not be empty") { }
+        public EmptyBasisException() : base("Basis can not be empty") { }
     }
 }

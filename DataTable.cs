@@ -9,14 +9,10 @@ namespace CG_Project
     public abstract class DataTable
     {
         float[,] _data;
-        int _rows;
-        int _cols;
         bool _transpose = false;
 
         public DataTable(int rows, int cols)
         {
-            _rows = rows;
-            _cols = cols;
             _data = new float[rows, cols];
         }
 
@@ -24,8 +20,8 @@ namespace CG_Project
         {
             get
             {
-                if (_transpose) return _cols;
-                else return _rows;
+                if (_transpose) return _data.GetLength(1);
+                else return _data.GetLength(0);
             }
         }
 
@@ -33,8 +29,8 @@ namespace CG_Project
         {
             get
             {
-                if (_transpose) return _rows;
-                else return _cols;
+                if (_transpose) return _data.GetLength(0);
+                else return _data.GetLength(1);
             }
         }
 
@@ -47,14 +43,14 @@ namespace CG_Project
 
         protected void SetElem(int row, int col, float value)
         {
-            if (row < 0 || col < 0 || row >= Rows || col >= Cols) throw new OutOfTableExeption();
+            if (row < 0 || col < 0 || row >= Rows || col >= Cols) throw new OutOfTableException();
             if (_transpose) _data[col, row] = value;
             else _data[row, col] = value;
         }
 
         protected float GetElem(int row, int col)
         {
-            if (row < 0 || col < 0 || row >= Rows || col >= Cols) throw new OutOfTableExeption();
+            if (row < 0 || col < 0 || row >= Rows || col >= Cols) throw new OutOfTableException();
             if (_transpose) return _data[col, row];
             else return _data[row, col];
         }
