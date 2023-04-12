@@ -236,7 +236,7 @@ namespace CG_Project
 
         public static Matrix operator /(Matrix matrix, float scalar)
         {
-            if (scalar == 0) return null;
+            if (scalar == 0) throw new DivideByZeroException();
             return matrix * (1 / scalar);
         }
 
