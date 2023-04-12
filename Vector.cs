@@ -12,6 +12,8 @@ namespace CG_Project
     {
         public Vector(int dim) : base(dim) { }
 
+        public Vector(int rows, int cols) : base(rows, cols) { }
+
         public Vector(params float[] data) : base(data) { }
 
         float ScalarProduct(Vector vector)

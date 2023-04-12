@@ -12,6 +12,8 @@ namespace CG_Project
     {
         public Point(int dim) : base(dim, 1) { }
 
+        public Point(int rows,  int cols) : base(rows, cols) { if (cols != 1) throw new DimensionException();  }
+
         public Point(params float[] data) : base(data.Length, 1)
         {
             for (int i = 0; i < data.Length; i++)

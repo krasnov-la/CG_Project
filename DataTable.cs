@@ -41,6 +41,19 @@ namespace CG_Project
         }
 
 
+        public dynamic Transposed()
+        {
+            Type resType = this.GetType();
+            dynamic res = resType.GetConstructor(new Type[] { typeof(int), typeof(int) }).Invoke(new Object[] { this.Rows, this.Cols });
+            for (int i = 0; i < this.Rows; i++)
+                for (int j =  0; j < this.Cols; j++)
+                    res[i, j] = this[i, j];
+
+            res.Transpose();
+
+            return res;
+        }
+
         protected void SetElem(int row, int col, float value)
         {
             if (row < 0 || col < 0 || row >= Rows || col >= Cols) throw new OutOfTableException();
