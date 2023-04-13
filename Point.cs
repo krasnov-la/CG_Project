@@ -12,7 +12,7 @@ namespace CG_Project
     {
         public Point(int dim) : base(dim, 1) { }
 
-        public Point(int rows,  int cols) : base(rows, cols) { if (cols != 1) throw new DimensionException();  }
+        public Point(int rows,  int cols) : base(rows, cols) { if (cols != 1) throw new EngineExceptions.DimensionException();  }
 
         public Point(params float[] data) : base(data.Length, 1)
         {
@@ -36,20 +36,23 @@ namespace CG_Project
             return base.GetElem(row, 0);
         }
 
-        public static Point operator +(Point point, Vector vector)
+        public static Point PointVectorSum(Point point, Vector vector)
         {
             if (vector.Rows != point.Rows ||
-                vector.Cols != point.Cols) throw new DimensionException();
+                vector.Cols != point.Cols) throw new EngineExceptions.DimensionException();
 
             Point result = new Point(point.Rows);
 
-            for (int i = 0;i < point.Rows;i++)
+            for (int i = 0; i < point.Rows; i++)
                 result[i] = point[i] + vector[i];
-            
+
             return result;
         }
 
+        public static Point operator +(Point point, Vector vector)
+            => PointVectorSum(point, vector);
+
         public static Point operator -(Point point, Vector vector)
-            => point + (-1 * vector);
+            => PointVectorSum(point, -1 * vector);
     }
 }

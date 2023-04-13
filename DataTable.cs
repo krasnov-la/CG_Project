@@ -52,18 +52,18 @@ namespace CG_Project
             res.Transpose();
 
             return res;
-        }
+        } // add to wiki
 
         protected void SetElem(int row, int col, float value)
         {
-            if (row < 0 || col < 0 || row >= Rows || col >= Cols) throw new OutOfTableException();
+            if (row < 0 || col < 0 || row >= Rows || col >= Cols) throw new EngineExceptions.OutOfTableException();
             if (_transpose) _data[col, row] = value;
             else _data[row, col] = value;
         }
 
         protected float GetElem(int row, int col)
         {
-            if (row < 0 || col < 0 || row >= Rows || col >= Cols) throw new OutOfTableException();
+            if (row < 0 || col < 0 || row >= Rows || col >= Cols) throw new EngineExceptions.OutOfTableException();
             if (_transpose) return _data[col, row];
             else return _data[row, col];
         }

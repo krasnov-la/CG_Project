@@ -24,7 +24,7 @@ namespace CG_Project
 
         Vector VectorProduct(Vector vector)
         {
-            if (vector.Rows != 3 || Rows != 3) throw new DimensionException();
+            if (vector.Rows != 3 || Rows != 3) throw new EngineExceptions.DimensionException();
 
             Vector result = new Vector(3);
 
@@ -47,7 +47,7 @@ namespace CG_Project
 
         public static explicit operator Vector(Matrix matrix)
         {
-            if (matrix.Cols != 1) throw new DimensionException();
+            if (matrix.Cols != 1) throw new EngineExceptions.DimensionException();
 
             Vector res = new Vector(matrix.Rows);
 
@@ -60,7 +60,7 @@ namespace CG_Project
         public static Vector operator +(Vector vector1, Vector vector2)
         {
             if (vector1.Rows != vector2.Rows ||
-                vector1.Cols != vector2.Cols) throw new DimensionException();
+                vector1.Cols != vector2.Cols) throw new EngineExceptions.DimensionException();
 
             Vector result = new Vector(vector1.Rows);
 
