@@ -5,9 +5,9 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{E3E2BC74-D638-4052-8776-B053486A0985}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CG_Project.Tests", "..\CG_Project.Tests\CG_Project.Tests.csproj", "{80FB1011-83E8-4D65-A152-5F15C3480BCD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGProject.Tests", "..\CG_Project.Tests\CGProject.Tests.csproj", "{80FB1011-83E8-4D65-A152-5F15C3480BCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CG_Project", "CG_Project.csproj", "{62A1B5F0-5878-4115-83C6-AF43815E21A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGProject", "CGProject.csproj", "{62A1B5F0-5878-4115-83C6-AF43815E21A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

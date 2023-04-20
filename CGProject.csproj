@@ -47,9 +47,13 @@
     <Compile Include="CoordinateSystem.cs" />
     <Compile Include="DataTable.cs" />
     <Compile Include="EngineExceptions.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="EntityDict.cs" />
+    <Compile Include="Identifier.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ray.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="VectorSpace.cs" />
   </ItemGroup>

@@ -2,25 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using CG_Project;
+using CGProject;
+using CGProject.Math;
+using CGProject.Engine;
 
 class Program
 {
+
+    static void PrintID(Entity entity)
+    {
+        Console.WriteLine(entity.ID);
+    }
     static void Main()
     {
-        /*VectorSpace vectorSpace = new VectorSpace(new Vector(1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1));*/
-        Vector v1 = new Vector(1, 2, 6, 4, 9);
-        Point point = new Point(8, 1, 3, 7, 3);
-        Matrix matrix = new Matrix(new float[,] { { 2, 4, 1, 8 },
-                                                  { 6, 8, 1, 5 },
-                                                  { 3, 1, 7, 0 },
-                                                  { 4, 9, 1, 2 } });
+        EntityDict dict = new EntityDict();
 
-        Console.WriteLine(v1.Transposed());
-        Console.WriteLine();
-        Console.WriteLine(point.Transposed());
-        Console.WriteLine();
-        Console.WriteLine(matrix.Transposed());
+        VectorSpace vs = new VectorSpace(new Vector(1, 0, 0),
+                                         new Vector(0, 1, 0),
+                                         new Vector(0, 0, 1));
+
+        CoordinateSystem cs = new CoordinateSystem(new Point(0, 0, 0), vs);
+
+        for (int i = 0;  i < 10; i++)
+        {
+            Entity ent = new Entity(cs);
+
+            dict.Add(ent.ID, ent);
+        }
+
+        dict.Exec(PrintID);
     }
 }

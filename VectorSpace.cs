@@ -4,51 +4,75 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CG_Project
+namespace CGProject
 {
-    public class VectorSpace
+    namespace Math
     {
-        public Vector[] _basis;
-
-        public VectorSpace(params Vector[] basis)
+        public class VectorSpace
         {
-            if (basis.Length == 0) throw new EngineExceptions.EmptyBasisException();
-            if (basis[0].IsTransposed()) basis[0].Transpose();
-            int dim = basis[0].Rows;
-            for (int i = 0; i < basis.Length; i++)
+            public Vector[] _basis;
+
+            public Vector[] Basis
+            { get { return _basis; } }
+
+            public VectorSpace(params Vector[] basis)
             {
-                if (basis[i].IsTransposed()) basis[i].Transpose();
-                if (basis[i].Rows != dim) throw new EngineExceptions.DimensionException();
+                if (basis.Length == 0) throw new EngineExceptions.EmptyBasisException();
+                if (basis[0].IsTransposed()) basis[0].Transpose();
+                int dim = basis[0].Rows;
+                for (int i = 0; i < basis.Length; i++)
+                {
+                    if (basis[i].IsTransposed()) basis[i].Transpose();
+                    if (basis[i].Rows != dim) throw new EngineExceptions.DimensionException();
+                }
+
+                _basis = basis;
             }
 
-            _basis = basis;
-        }
+            public Vector VectorProduct(Vector vector1, Vector vector2)
+            {
+                if (vector1.Rows != 3 || vector2.Rows != 3) throw new EngineExceptions.DimensionException();
 
-        public float ScalarProduct(Vector vector1, Vector vector2)
-        {
-            if (vector1.IsTransposed() ||
-                vector1.Rows != vector2.Rows) throw new EngineExceptions.DimensionException();
-            vector1.Transpose();
-            return (vector1 * Matrix.Gram(_basis) * vector2)[0, 0];
-        }
+                Vector result = new Vector(3);
 
-        public float Length(Vector vector)
-        {
-            return (float)Math.Sqrt(this.ScalarProduct(vector, vector));
-        }
+                result += Basis[0] * (vector1[1] * vector2[2] -
+                                      vector1[2] * vector2[1]);
 
-        public Vector AsVector(Point point)
-        {
-            if (point.IsTransposed()) point.Transpose();
+                result += Basis[1] * (vector1[2] * vector2[0] -
+                                      vector1[0] * vector2[2]);
 
-            if (point.Rows != _basis[0].Rows) throw new EngineExceptions.DimensionException(); 
+                result += Basis[2] * (vector1[0] * vector2[1] -
+                                      vector1[1] * vector2[0]);
 
-            Vector result = new Vector(_basis[0].Rows);
+                return result;
+            }
 
-            for (int i = 0; i < _basis.Length; i++)
-                result += _basis[i] * point[i];
+            public float ScalarProduct(Vector vector1, Vector vector2)
+            {
+                if (vector1.IsTransposed() ||
+                    vector1.Rows != vector2.Rows) throw new EngineExceptions.DimensionException();
+                vector1.Transpose();
+                return (vector1 * Matrix.Gram(_basis) * vector2)[0, 0];
+            }
 
-            return result;
+            public float Length(Vector vector)
+            {
+                return (float)System.Math.Sqrt(this.ScalarProduct(vector, vector));
+            }
+
+            public Vector AsVector(Point point)
+            {
+                if (point.IsTransposed()) point.Transpose();
+
+                if (point.Rows != _basis[0].Rows) throw new EngineExceptions.DimensionException();
+
+                Vector result = new Vector(_basis[0].Rows);
+
+                for (int i = 0; i < _basis.Length; i++)
+                    result += _basis[i] * point[i];
+
+                return result;
+            }
         }
     }
 }

@@ -4,17 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CG_Project
+namespace CGProject
 {
-    public class CoordinateSystem
+    namespace Math
     {
-        public Point _initPoint;
-        public VectorSpace _vs;
-
-        public CoordinateSystem(Point initPoint, VectorSpace vs)
+        public class CoordinateSystem
         {
-            _initPoint = initPoint;
-            _vs = vs;
+            Point _initPoint;
+            VectorSpace _vs;
+
+            public CoordinateSystem(Point initPoint, VectorSpace vs)
+            {
+                _initPoint = initPoint;
+                _vs = vs;
+            }
+
+            public Point InitPoint
+            { get { return _initPoint; } }
+
+            public VectorSpace VS
+            { get { return _vs; } }
         }
     }
 }

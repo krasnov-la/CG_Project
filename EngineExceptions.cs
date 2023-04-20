@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CG_Project
+namespace CGProject
 {
-    public abstract class EngineExceptions
+    public abstract class EngineExceptions : ApplicationException
     {
         public class OutOfTableException : ApplicationException
         {
