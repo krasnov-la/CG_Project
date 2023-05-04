@@ -23,5 +23,15 @@ namespace CGProject
         {
             public EmptyBasisException() : base("Basis can not be empty") { }
         }
+
+        public class PropertyTypeException : ApplicationException
+        {
+            public PropertyTypeException() : base("Trying to assign value of incorrect type to Entity property") { }
+        }
+
+        public class NonExistantPropertyException : ApplicationException
+        {
+            public NonExistantPropertyException() : base("Trying to operate on property that does't exist") { }
+        }
     }
 }

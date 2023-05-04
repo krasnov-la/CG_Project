@@ -1,15 +1,15 @@
-﻿using System;
+﻿using CGProject.Math;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CGProject.Math;
 
 namespace CGProject
 {
     namespace Engine
     {
-        class Ray
+        internal class Ray
         {
             CoordinateSystem _coordinateSystem;
             Point _initPt;

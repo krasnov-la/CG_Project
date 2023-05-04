@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
 
 namespace CGProject
 {
@@ -129,7 +129,7 @@ namespace CGProject
 
                 float res = 0;
 
-                for(int i = 0;i < Rows; i++)
+                for (int i = 0; i < Rows; i++)
                     res += this[i, 0] * GetCofactor(i, 0);
 
                 return res;

@@ -9,31 +9,25 @@ namespace CGProject
 {
     namespace Engine
     {
-        class Identifier
+        public class Identifier
         {
             string _id;
             static string _idLast = " ";
-            public static EntityDict _entities;
 
             public string ID { get { return _id; } }
 
-            public Identifier(Entity ent)
+            public Identifier()
             {
                 _id = _idLast;
                 IdIncrement();
-                _entities.Add(_id, ent);
             }
 
-            public static Entity GetFromIdList(string key)
-                => _entities.Get(key);
-            
-
-            public static void IdIncrement()
+            static void IdIncrement()
             {
                 IdIncrement(_idLast.Length - 1);
             }
 
-            public static void IdIncrement(int index)
+            static void IdIncrement(int index)
             {
                 bool flag = false;
                 char changed = _idLast[index];
@@ -52,7 +46,7 @@ namespace CGProject
                     if (index == 0)
                         _idLast = _idLast.Insert(0, "!");
 
-                    else 
+                    else
                         IdIncrement(index - 1);
             }
         }
