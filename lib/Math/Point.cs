@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace CGProject
 {
     namespace Math
@@ -43,7 +42,7 @@ namespace CGProject
                 if (vector.Rows != point.Rows ||
                     vector.Cols != point.Cols) throw new EngineExceptions.DimensionException();
 
-                Point result = new Point(point.Rows);
+                Point result = new(point.Rows);
 
                 for (int i = 0; i < point.Rows; i++)
                     result[i] = point[i] + vector[i];

@@ -54,7 +54,7 @@ namespace CGProject
                 res.Transpose();
 
                 return res;
-            } // add to wiki
+            }
 
             protected void SetElem(int row, int col, float value)
             {

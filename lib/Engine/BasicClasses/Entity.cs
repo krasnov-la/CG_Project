@@ -17,9 +17,9 @@ namespace CGProject
             static Type[] _propTypes = 
                 {typeof(Point), typeof(Vector), typeof(Point), typeof(float), typeof(float) }; 
 
-            Identifier _id = new Identifier();
+            Identifier _id = new();
             CoordinateSystem _coordSystem;
-            Dictionary<EntityProps, object> _props = new Dictionary<EntityProps, object>();
+            Dictionary<EntityProps, object> _props = new();
 
             public Entity(CoordinateSystem coordinateSystem)
             {

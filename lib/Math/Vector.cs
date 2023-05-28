@@ -19,7 +19,7 @@ namespace CGProject
 
             float ScalarProduct(Vector vector)
             {
-                Matrix identity = new Matrix(this.Rows);
+                Matrix identity = new(this.Rows);
                 return identity.BilinearForm(this, vector);
             }
 
@@ -27,7 +27,7 @@ namespace CGProject
             {
                 if (vector.Rows != 3 || Rows != 3) throw new EngineExceptions.DimensionException();
 
-                Vector result = new Vector(3);
+                Vector result = new(3);
 
                 result[0] = this[1] * vector[2] -
                             this[2] * vector[1];
@@ -50,7 +50,7 @@ namespace CGProject
             {
                 if (matrix.Cols != 1) throw new EngineExceptions.DimensionException();
 
-                Vector res = new Vector(matrix.Rows);
+                Vector res = new(matrix.Rows);
 
                 for (int i = 0; i < matrix.Rows; i++)
                     res[i] = matrix[i, 0];
@@ -63,7 +63,7 @@ namespace CGProject
                 if (vector1.Rows != vector2.Rows ||
                     vector1.Cols != vector2.Cols) throw new EngineExceptions.DimensionException();
 
-                Vector result = new Vector(vector1.Rows);
+                Vector result = new(vector1.Rows);
 
                 for (int i = 0; i < vector1.Rows; i++)
                 {
@@ -75,7 +75,7 @@ namespace CGProject
 
             public static Vector ScalarMult(Vector vector, float scalar)
             {
-                Vector result = new Vector(vector.Rows);
+                Vector result = new(vector.Rows);
 
                 for (int i = 0; i < vector.Rows; i++)
                     result[i] = scalar * vector[i];

@@ -17,9 +17,8 @@ namespace CGProject
                 SetProp(EntityProps.Position, position);
                 SetProp(EntityProps.Direction, direction);
                 _game = game;
-                //Нужно ли пушить себя в лист игры???
+                game.Push(this);
             }
-
 
             public void Move(Vector direction)
             {

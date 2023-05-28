@@ -12,7 +12,7 @@ namespace CGProject
     {
         public class EntityList
         {
-            Hashtable _hash = new Hashtable();
+            Hashtable _hash = new();
 
             public EntityList() { }
 

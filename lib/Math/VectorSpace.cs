@@ -10,7 +10,7 @@ namespace CGProject
     {
         public class VectorSpace
         {
-            public Vector[] _basis;
+            Vector[] _basis;
 
             public Vector[] Basis
             { get { return _basis; } }
@@ -33,7 +33,7 @@ namespace CGProject
             {
                 if (vector1.Rows != 3 || vector2.Rows != 3) throw new EngineExceptions.DimensionException();
 
-                Vector result = new Vector(3);
+                Vector result = new(3);
 
                 result += Basis[0] * (vector1[1] * vector2[2] -
                                       vector1[2] * vector2[1]);
@@ -66,7 +66,7 @@ namespace CGProject
 
                 if (point.Rows != _basis[0].Rows) throw new EngineExceptions.DimensionException();
 
-                Vector result = new Vector(_basis[0].Rows);
+                Vector result = new(_basis[0].Rows);
 
                 for (int i = 0; i < _basis.Length; i++)
                     result += _basis[i] * point[i];

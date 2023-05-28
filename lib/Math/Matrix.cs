@@ -41,7 +41,7 @@ namespace CGProject
             public static Matrix GeneralRotation(int dim, int axisInd1, int axisInd2, float angle)
             {
                 angle = (angle % 360) * (float)System.Math.PI / 180;
-                Matrix res = new Matrix(dim);
+                Matrix res = new(dim);
 
                 if (axisInd1 >= dim || axisInd2 >= dim) throw new EngineExceptions.DimensionException();
 
@@ -81,7 +81,7 @@ namespace CGProject
                 for (int i = 1; i < vectors.Length; i++)
                     if (vectors[i].Rows != normal) throw new EngineExceptions.DimensionException();
 
-                Matrix result = new Matrix(vectors.Length, vectors.Length);
+                Matrix result = new(vectors.Length, vectors.Length);
 
                 for (int i = 0; i < result.Rows; i++)
                     for (int j = 0; j < result.Cols; j++)
@@ -95,7 +95,7 @@ namespace CGProject
             {
                 if (Rows != Cols) throw new EngineExceptions.DimensionException();
 
-                Matrix minor = new Matrix(Rows - 1, Cols - 1);
+                Matrix minor = new(Rows - 1, Cols - 1);
 
                 for (int k = 0; k < Rows; k++)
                     for (int l = 0; l < Cols; l++)
@@ -139,7 +139,7 @@ namespace CGProject
             {
                 if (Rows != Cols) throw new EngineExceptions.DimensionException();
 
-                Matrix result = new Matrix(Rows, Cols);
+                Matrix result = new(Rows, Cols);
 
                 for (int i = 0; i < Rows; i++)
                     for (int j = 0; j < Cols; j++)
@@ -157,7 +157,7 @@ namespace CGProject
                 if (matrix1.Rows != matrix2.Rows ||
                     matrix1.Cols != matrix2.Cols) throw new EngineExceptions.DimensionException();
 
-                Matrix result = new Matrix(matrix1.Rows, matrix1.Cols);
+                Matrix result = new(matrix1.Rows, matrix1.Cols);
 
                 for (int i = 0; i < matrix1.Rows; i++)
                     for (int j = 0; j < matrix1.Cols; j++)
@@ -168,7 +168,7 @@ namespace CGProject
 
             public static Matrix ScalarMult(float scalar, Matrix matrix)
             {
-                Matrix result = new Matrix(matrix.Rows, matrix.Cols);
+                Matrix result = new(matrix.Rows, matrix.Cols);
                 for (int i = 0; i < matrix.Rows; i++)
                     for (int j = 0; j < matrix.Cols; j++)
                         result[i, j] = scalar * matrix[i, j];
@@ -180,7 +180,7 @@ namespace CGProject
             {
                 if (matrix1.Cols != matrix2.Rows) throw new EngineExceptions.DimensionException();
 
-                Matrix result = new Matrix(matrix1.Rows, matrix2.Cols);
+                Matrix result = new(matrix1.Rows, matrix2.Cols);
 
                 for (int i = 0; i < result.Rows; i++)
                     for (int j = 0; j < result.Cols; j++)
@@ -200,7 +200,7 @@ namespace CGProject
 
             public static Matrix ConvFromVectror(Vector vector)
             {
-                Matrix res = new Matrix(vector.Rows, vector.Cols);
+                Matrix res = new(vector.Rows, vector.Cols);
                 for (int i = 0; i < res.Rows; i++)
                     for (int j = 0; j < res.Cols; j++)
                         res[i, j] = vector[i, j];
