@@ -9,8 +9,8 @@ namespace CGProject.Engine
 {
     public class GameObject : Entity
     {
-        Game _game;
-        public GameObject(Game game, Point position, Vector direction) : base(game.CoordinateSystem)
+        protected Game _game;
+        public GameObject(Game game, Point position, Vector direction) : base()
         {
             SetProp(EntityProp.Position, position);
             SetProp(EntityProp.Direction, direction);
@@ -25,10 +25,10 @@ namespace CGProject.Engine
 
         public void RotatePlanar(int axis1, int axis2, float angle)
         {
-            this[EntityProp.Direction] = (Vector)(Matrix.GeneralRotation(CoordinateSystem.VS.Basis.Length, axis1, axis2, angle) * (Vector)this[EntityProp.Direction]);
+            this[EntityProp.Direction] = (Vector)(Matrix.GeneralRotation(_game.CoordinateSystem.VS.Basis.Length, axis1, axis2, angle) * (Vector)this[EntityProp.Direction]);
         }
 
-        public void Rotate3D(int angleX, int angleY, int angleZ)
+        public void Rotate3D(float angleX, float angleY, float angleZ)
         {
             this[EntityProp.Direction] = (Vector)(Matrix.Rotation(angleX, angleY, angleZ) * (Vector)this[EntityProp.Direction]);
         }

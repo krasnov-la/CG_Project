@@ -14,16 +14,10 @@ namespace CGProject.Engine
     public class Entity
     {
         static Type[] _propTypes =
-            {typeof(Point), typeof(Vector), typeof(Point), typeof(float), typeof(float), typeof(Vector) };
+            {typeof(Point), typeof(Vector), typeof(Point), typeof(Tuple<float, float>), typeof(float), typeof(Vector) };
 
         Identifier _id = new();
-        CoordinateSystem _coordSystem;
         Dictionary<EntityProp, object> _props = new();
-
-        public Entity(CoordinateSystem coordinateSystem)
-        {
-            _coordSystem = coordinateSystem;
-        }
 
         public dynamic this[EntityProp prop]
         {
@@ -39,11 +33,6 @@ namespace CGProject.Engine
         public Identifier Identifier
         {
             get { return _id; }
-        }
-
-        public CoordinateSystem CoordinateSystem
-        {
-            get { return _coordSystem; }
         }
 
         public void RemoveProp(EntityProp prop)

@@ -17,6 +17,11 @@ namespace CGProject.Engine
 
         public Point InitPt { get { return _initPt; } }
 
+        public void Rotate3D(float angleX, float angleY, float angleZ)
+        {
+            _dir = (Vector)(Matrix.Rotation(angleX, angleY, angleZ) * _dir);
+        }
+
         public CoordinateSystem CoordinateSystem { get { return _coordinateSystem; } }
 
         public Ray(CoordinateSystem coordinateSystem, Point initPt, Vector dir)

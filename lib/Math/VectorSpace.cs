@@ -36,13 +36,17 @@ namespace CGProject.Math
         public bool IsValidBasis(Vector[] basis)
         {
             if (basis.Length == 0) return false;
+
             int dim = basis[0].Size;
             if (basis.Length != dim) return false;
+            
             Matrix matrix = new(dim);
+            
             for (int i = 0; i < dim; i++)
             {
                 if (basis[i].Size != dim) return false;
                 if (basis[i].IsTransposed()) basis[i].Transpose();
+            
                 for (int j = 0; j < dim; j++)
                 {
                     matrix[i, j] = basis[i][j];

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace CGProject.Math
 {
@@ -83,17 +84,19 @@ namespace CGProject.Math
 
         public sealed override string ToString()
         {
-            string result = "";
+            CultureInfo info = CultureInfo.InvariantCulture;
+
+            string result = "(";
 
             for (int i = 0; i < Rows; i++)
             {
                 for (int j = 0; j < Cols; j++)
                 {
-                    result += this[i, j] + " ";
+                    result += Convert.ToString(this[i, j], info) + ", ";
                 }
 
-                result = result.Remove(result.Length - 1, 1);
-                result += "\n";
+                result = result.Remove(result.Length - 2, 2);
+                result += ")\n";
             }
 
             result = result.Remove(result.Length - 1, 1);
