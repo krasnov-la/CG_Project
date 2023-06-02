@@ -6,49 +6,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CGProject
+namespace CGProject.Engine
 {
-    namespace Engine
+    public class EntityList
     {
-        public class EntityList
+        Hashtable _hash = new();
+        public EntityList() { }
+
+        public Entity this[Identifier key]
         {
-            Hashtable _hash = new();
+            get { return (Entity)_hash[key.ID]; }
+        }
 
-            public EntityList() { }
+        public void Add(Entity entity)
+        {
+            _hash.Add(entity.Identifier.ID, entity);
+        }
 
-            public Entity this[Identifier key]
-            {
-                get { return (Entity)_hash[key.ID]; }
-            }
+        public void Remove(Identifier key)
+        {
+            _hash.Remove(key.ID);
+        }
 
-            public void Add(Entity entity)
-            {
-                _hash.Add(entity.Identifier.ID, entity);
-            }
+        public void Remove(Entity entity)
+        {
+            _hash.Remove(entity.Identifier.ID);
+        }
 
-            public void Remove(Identifier key)
-            {
-                _hash.Remove(key.ID);
-            }
+        public bool Contains(Identifier key)
+        {
+            return _hash.Contains(key.ID);
+        }
 
-            public void Remove(Entity entity)
-            {
-                _hash.Remove(entity.Identifier.ID);
-            }
+        public Entity Get(Identifier key)
+        {
+            if (!_hash.ContainsKey(key.ID))
+                throw new EngineExceptions.NonExistantPropertyException();
 
-            public Entity Get(Identifier key)
-            {
-                if (!_hash.ContainsKey(key.ID))
-                    throw new EngineExceptions.NonExistantPropertyException();
+            return (Entity)_hash[key.ID];
+        }
 
-                return (Entity)_hash[key.ID];
-            }
-
-            public void Exec(Action<Entity> executable)
-            {
-                foreach (Entity entity in _hash.Values)
-                    executable(entity);
-            }
+        public void Exec(Action<Entity> executable)
+        {
+            foreach (Entity entity in _hash.Values)
+                executable(entity);
         }
     }
 }

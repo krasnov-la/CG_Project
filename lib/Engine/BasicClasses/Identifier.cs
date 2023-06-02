@@ -5,50 +5,53 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CGProject
+namespace CGProject.Engine
 {
-    namespace Engine
+    public class Identifier
     {
-        public class Identifier
+        string _id;
+        static string _idLast = " ";
+
+        public string ID { get { return _id; } }
+
+        public Identifier()
         {
-            string _id;
-            static string _idLast = " ";
+            _id = _idLast;
+            IdIncrement();
+        }
 
-            public string ID { get { return _id; } }
+        static void IdIncrement()
+        {
+            IdIncrement(_idLast.Length - 1);
+        }
 
-            public Identifier()
+        static void IdIncrement(int index)
+        {
+            bool flag = false;
+            char changed = _idLast[index];
+            changed = (char)(changed + 1);
+
+            if (changed == 127)
             {
-                _id = _idLast;
-                IdIncrement();
+                changed = (char)32;
+                flag = true;
             }
 
-            static void IdIncrement()
-            {
-                IdIncrement(_idLast.Length - 1);
-            }
+            _idLast = _idLast.Remove(index, 1);
+            _idLast = _idLast.Insert(index, changed.ToString());
 
-            static void IdIncrement(int index)
-            {
-                bool flag = false;
-                char changed = _idLast[index];
-                changed = (char)(changed + 1);
+            if (flag)
+                if (index == 0)
+                    _idLast = _idLast.Insert(0, "!");
 
-                if (changed == 127)
-                {
-                    changed = (char)32;
-                    flag = true;
-                }
+                else
+                    IdIncrement(index - 1);
+        }
 
-                _idLast = _idLast.Remove(index, 1);
-                _idLast = _idLast.Insert(index, changed.ToString());
-
-                if (flag)
-                    if (index == 0)
-                        _idLast = _idLast.Insert(0, "!");
-
-                    else
-                        IdIncrement(index - 1);
-            }
+        public override bool Equals(object? obj)
+        {
+            if (!(obj is Identifier)) return false;
+            return ((Identifier)obj).ID.Equals(ID);
         }
     }
 }

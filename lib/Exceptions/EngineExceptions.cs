@@ -19,9 +19,9 @@ namespace CGProject
             public DimensionException() : base("Operation invalid with current operand dimensions") { }
         }
 
-        public class EmptyBasisException : ApplicationException
+        public class InvalidBasisException : ApplicationException
         {
-            public EmptyBasisException() : base("Basis can not be empty") { }
+            public InvalidBasisException() : base("Given set of vectors cannot be considered a basis") { }
         }
 
         public class PropertyTypeException : ApplicationException

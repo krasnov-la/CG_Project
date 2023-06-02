@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="lib\Tests\**" />
+    <EmbeddedResource Remove="lib\Tests\**" />
+    <None Remove="lib\Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="lib\Engine\Visualisation\" />
   </ItemGroup>
 

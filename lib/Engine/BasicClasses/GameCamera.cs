@@ -5,28 +5,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CGProject
+namespace CGProject.Engine
 {
-    namespace Engine
+    public class GameCamera : GameObject
     {
-        public class GameCamera : GameObject
+        bool _hold = false;
+        public GameCamera(Game game, Point position, Vector direction, float FoV, float drawDist)
+            : base(game, position, direction)
         {
-            bool _hold = false;
-            public GameCamera(Game game, Point position, Vector direction, float FoV, float drawDist)
-                : base(game, position, direction)
-            {
-                this[EntityProps.FoV] = FoV;
-                this[EntityProps.DrawDist] = drawDist;
-            }
-
-            public GameCamera(Game game, Point position, Point lookAt, float FoV, float drawDist)
-                : base(game, position, new Vector(0))
-            {
-                this[EntityProps.FoV] = FoV;
-                this[EntityProps.DrawDist] = drawDist;
-                this.RemoveProp(EntityProps.Direction);
-                this[EntityProps.LookAt] = lookAt;
-            }
+            this[EntityProp.FoV] = FoV;
+            this[EntityProp.DrawDist] = drawDist;
         }
+
+        public GameCamera(Game game, Point position, Point lookAt, float FoV, float drawDist)
+            : base(game, position, new Vector(0))
+        {
+            this[EntityProp.FoV] = FoV;
+            this[EntityProp.DrawDist] = drawDist;
+            RemoveProp(EntityProp.Direction);
+            this[EntityProp.LookAt] = lookAt;
+        }
+
+        /*public Ray[,] GetRays(int n, int m)
+        {
+            Vector? initVector = null;
+
+        }*/
     }
 }

@@ -5,28 +5,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CGProject
+namespace CGProject.Engine
 {
-    namespace Engine
+    public class Ray
     {
-        internal class Ray
+        CoordinateSystem _coordinateSystem;
+        Point _initPt;
+        Vector _dir;
+
+        public Vector Dir { get { return _dir; } }
+
+        public Point InitPt { get { return _initPt; } }
+
+        public CoordinateSystem CoordinateSystem { get { return _coordinateSystem; } }
+
+        public Ray(CoordinateSystem coordinateSystem, Point initPt, Vector dir)
         {
-            CoordinateSystem _coordinateSystem;
-            Point _initPt;
-            Vector _dir;
+            _coordinateSystem = coordinateSystem;
+            _initPt = initPt;
+            _dir = dir;
+        }
 
-            public Vector Dir { get { return _dir; } }
-
-            public Point InitPt { get { return _initPt; } }
-
-            public CoordinateSystem CoordinateSystem { get { return _coordinateSystem; } }
-
-            public Ray(CoordinateSystem coordinateSystem, Point initPt, Vector dir)
-            {
-                _coordinateSystem = coordinateSystem;
-                _initPt = initPt;
-                _dir = dir;
-            }
+        public void Normalize()
+        {
+            _dir = _dir / _coordinateSystem.VS.Length(_dir);
         }
     }
 }

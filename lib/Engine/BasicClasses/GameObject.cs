@@ -5,45 +5,47 @@ using System.Text;
 using System.Threading.Tasks;
 using CGProject.Math;
 
-namespace CGProject
+namespace CGProject.Engine
 {
-    namespace Engine
+    public class GameObject : Entity
     {
-        public class GameObject : Entity
+        Game _game;
+        public GameObject(Game game, Point position, Vector direction) : base(game.CoordinateSystem)
         {
-            Game _game;
-            public GameObject(Game game, Point position, Vector direction) : base (game.CoordinateSystem)
-            {
-                SetProp(EntityProps.Position, position);
-                SetProp(EntityProps.Direction, direction);
-                _game = game;
-                game.Push(this);
-            }
+            SetProp(EntityProp.Position, position);
+            SetProp(EntityProp.Direction, direction);
+            _game = game;
+            game.Push(this);
+        }
 
-            public void Move(Vector direction)
-            {
-                this[EntityProps.Position] = (Point)this[EntityProps.Position] + direction;
-            }
+        public void Move(Vector direction)
+        {
+            this[EntityProp.Position] = (Point)this[EntityProp.Position] + direction;
+        }
 
-            public void RotatePlanar(int axis1, int axis2, float angle)
-            {
-                this[EntityProps.Direction] = (Vector)(Matrix.GeneralRotation(CoordinateSystem.VS.Basis.Length, axis1, axis2, angle) * (Vector)this[EntityProps.Direction]);
-            }
+        public void RotatePlanar(int axis1, int axis2, float angle)
+        {
+            this[EntityProp.Direction] = (Vector)(Matrix.GeneralRotation(CoordinateSystem.VS.Basis.Length, axis1, axis2, angle) * (Vector)this[EntityProp.Direction]);
+        }
 
-            public void Rotate3D(int angleX, int angleY, int angleZ)
-            {
-                this[EntityProps.Direction] = (Vector)(Matrix.Rotation(angleX, angleY, angleZ) * (Vector)this[EntityProps.Direction]);
-            }
+        public void Rotate3D(int angleX, int angleY, int angleZ)
+        {
+            this[EntityProp.Direction] = (Vector)(Matrix.Rotation(angleX, angleY, angleZ) * (Vector)this[EntityProp.Direction]);
+        }
 
-            public void SetPos(Point point)
-            {
-                this[EntityProps.Position] = point;
-            }
+        public void SetPos(Point point)
+        {
+            this[EntityProp.Position] = point;
+        }
 
-            public void SetDir(Vector vector)
-            {
-                this[EntityProps.Direction] = vector;
-            }
+        public void SetDir(Vector vector)
+        {
+            this[EntityProp.Direction] = vector;
+        }
+
+        public virtual float IntersectionDist(Ray ray)
+        {
+            return 0;
         }
     }
 }
