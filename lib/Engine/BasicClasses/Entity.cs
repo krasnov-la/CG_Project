@@ -9,25 +9,17 @@ using System.Threading.Tasks;
 
 namespace CGProject.Engine
 {
-    public enum EntityProp { Position, Direction, LookAt, FoV, DrawDist, Normal } // Инициализация свойств через конфиг?? 
-
-    public class Entity
+    public abstract class Entity
     {
-        static Type[] _propTypes =
-            {typeof(Point), typeof(Vector), typeof(Point), typeof(Tuple<float, float>), typeof(float), typeof(Vector) };
+        CoordinateSystem _cs;
+        Point _pos;
 
-        Identifier _id = new();
-        Dictionary<EntityProp, object> _props = new();
+        readonly Identifier _id = new();
 
-        public dynamic this[EntityProp prop]
+        public Entity(CoordinateSystem cs, Point pos)
         {
-            get { return _props[prop]; }
-            set
-            {
-                if (_propTypes[(int)prop] != value.GetType()) throw new EngineExceptions.PropertyTypeException();
-
-                else _props[prop] = value;
-            }
+            _pos = pos;
+            _cs = cs;
         }
 
         public Identifier Identifier
@@ -35,29 +27,26 @@ namespace CGProject.Engine
             get { return _id; }
         }
 
-        public void RemoveProp(EntityProp prop)
+        public CoordinateSystem CoordinateSystem
         {
-            if (!_props.ContainsKey(prop)) throw new EngineExceptions.NonExistantPropertyException();
-            _props.Remove(prop);
+            get { return _cs; }
         }
 
-        public object GetProp(EntityProp prop)
-            => this[prop];
+        public Point Position { get => _pos; }
 
-        public void SetProp(EntityProp prop, object val)
+        public void Move(Vector direction)
         {
-            this[prop] = val;
+            _pos += direction;
         }
 
-        public Dictionary<EntityProp, object>.KeyCollection ExistingProps()
-            => _props.Keys;
-
-        public bool Contains(EntityProp prop)
-            => _props.ContainsKey(prop);
+        public void SetPos(Point point)
+        {
+            _pos = point;
+        }
 
         public override bool Equals(object? obj)
         {
-            if (!(obj is Entity)) return false;
+            if (obj is not Entity) return false;
             return ((Entity)obj).Identifier.Equals(Identifier);
         }
     }

@@ -9,7 +9,7 @@ namespace CGProject.Engine
 {
     public class Identifier
     {
-        string _id;
+        readonly string _id;
         static string _idLast = " ";
 
         public string ID { get { return _id; } }
@@ -50,7 +50,7 @@ namespace CGProject.Engine
 
         public override bool Equals(object? obj)
         {
-            if (!(obj is Identifier)) return false;
+            if (obj is not Identifier) return false;
             return ((Identifier)obj).ID.Equals(ID);
         }
     }

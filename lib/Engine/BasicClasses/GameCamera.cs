@@ -7,51 +7,65 @@ using System.Threading.Tasks;
 
 namespace CGProject.Engine
 {
-    public class GameCamera : GameObject
+    public class GameCamera : Entity //done
     {
-        bool _hold = false;
+        Vector? _dir = null;
+        Point? _lookAt = null;
+        Tuple<float, float> _fov;
+        float _dist;
+
         public GameCamera(Game game, Point position, Vector direction, Tuple<float, float> FoV, float drawDist)
-            : base(game, position, direction)
+            : base(game.CoordinateSystem, position)
         {
-            this[EntityProp.FoV] = FoV;
-            this[EntityProp.DrawDist] = drawDist;
+            _dir = direction;
+            _fov = FoV;
+            DrawDist = drawDist;
         }
 
         public GameCamera(Game game, Point position, Point lookAt, Tuple<float, float> FoV, float drawDist)
-            : base(game, position, new Vector(0))
+            : base(game.CoordinateSystem, position)
         {
-            _hold = true;
-            this[EntityProp.FoV] = FoV;
-            this[EntityProp.DrawDist] = drawDist;
-            RemoveProp(EntityProp.Direction);
-            this[EntityProp.LookAt] = lookAt;
+            _lookAt = lookAt;
+            _fov = FoV;
+            DrawDist = drawDist;
         }
+
+        public float DrawDist { get => _dist;
+            set
+            {
+                if (value <= 0) throw new ArgumentOutOfRangeException("DrawDist", "Distance cannot be less than zero");
+                _dist = value;
+            }
+        }
+
+        public Vector? Direction { get => _dir; }
+
+        public Tuple<float, float> FoV { get => _fov; }
 
         public Ray[,] GetRays(int hBlocks, int vBlocks)
         {
             Ray[,] rayMatrix = new Ray[hBlocks, vBlocks]; 
-            Vector initVector = _hold ? 
-                (_game.CoordinateSystem.VS.AsVector(this[EntityProp.LookAt]) - _game.CoordinateSystem.VS.AsVector(this[EntityProp.Position])) : 
-                this[EntityProp.Direction];
+            Vector initVector = _dir == null ? 
+                (CoordinateSystem.VS.AsBaseVector(_lookAt) - CoordinateSystem.VS.AsBaseVector(Position)) : 
+                _dir;
 
-            float hFoV = this[EntityProp.FoV].Item1;
-            float vFoV = this[EntityProp.FoV].Item2;
+            float hFoV = _fov.Item1;
+            float vFoV = _fov.Item2;
 
-            float dHor = hFoV / hBlocks;
-            float dVert = vFoV / vBlocks;
+            float dHor = hFoV / (hBlocks - 1);
+            float dVert = vFoV / (vBlocks - 1);
 
             for (int i = 0; i < hBlocks; i++)
                 for (int j = 0; j < vBlocks; j++)
                 {
-                    float hor = i * dHor - hFoV / 2;
+                    float hor = -(i * dHor - hFoV / 2);
                     float vert = j * dVert - vFoV / 2;
 
-                    Ray tmp = new Ray(_game.CoordinateSystem, this[EntityProp.Position], initVector);
+                    Ray tmp = new(CoordinateSystem, Position, initVector);
                     tmp.Normalize();
-                    tmp.Rotate3D(0, vert, hor);
-                    //Console.WriteLine(tmp.Dir.Transposed());
-                    //Console.WriteLine(tmp.Dir.Transposed());
-                    //Console.WriteLine();
+                    tmp.Dir = (Vector)(Matrix.Rotation(0, vert, hor) * tmp.Dir);
+                    float len = CoordinateSystem.VS.Length(initVector);
+                    tmp.Dir *= len * len / CoordinateSystem.VS.ScalarProduct(tmp.Dir, initVector);
                     rayMatrix[i, j] = tmp;
                 }
 

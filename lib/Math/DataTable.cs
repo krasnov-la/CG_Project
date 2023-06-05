@@ -14,6 +14,7 @@ namespace CGProject.Math
 
         public DataTable(int rows, int cols)
         {
+            if (rows == 0 || cols == 0) throw new EngineExceptions.DimensionException();
             _data = new float[rows, cols];
         }
 
@@ -84,19 +85,17 @@ namespace CGProject.Math
 
         public sealed override string ToString()
         {
-            CultureInfo info = CultureInfo.InvariantCulture;
-
-            string result = "(";
+            string result = "";
 
             for (int i = 0; i < Rows; i++)
             {
                 for (int j = 0; j < Cols; j++)
                 {
-                    result += Convert.ToString(this[i, j], info) + ", ";
+                    result += Convert.ToString(this[i, j]) + " ";
                 }
 
-                result = result.Remove(result.Length - 2, 2);
-                result += ")\n";
+                result = result.Remove(result.Length - 1, 1);
+                result += "\n";
             }
 
             result = result.Remove(result.Length - 1, 1);

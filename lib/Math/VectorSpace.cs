@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.InteropServices;
 
 namespace CGProject.Math
 {
@@ -33,7 +34,7 @@ namespace CGProject.Math
             return result;
         }
 
-        public bool IsValidBasis(Vector[] basis)
+        public static bool IsValidBasis(Vector[] basis)
         {
             if (basis.Length == 0) return false;
 
@@ -67,7 +68,7 @@ namespace CGProject.Math
             return (float)System.Math.Sqrt(ScalarProduct(vector, vector));
         }
 
-        public Vector AsVector(Point point)
+        public Vector AsBaseVector(Point point)
         {
             if (point.IsTransposed()) point.Transpose();
 
@@ -79,6 +80,21 @@ namespace CGProject.Math
                 result += _basis[i] * point[i];
 
             return result;
+        }
+
+        public Vector AsVectorInBasis(Vector vector)
+        {
+            Matrix basisSwap = new Matrix(Basis.Length);
+
+            for (int i = 0; i < Basis.Length; i++)
+                for (int j = 0; j < Basis.Length; j++)
+                {
+                    basisSwap[i, j] = Basis[j][i];
+                }
+
+            Matrix InvSwap = basisSwap.Inverse();
+
+            return (Vector)(InvSwap * vector);
         }
     }
 }

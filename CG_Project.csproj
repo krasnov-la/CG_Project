@@ -13,8 +13,4 @@
     <None Remove="lib\Tests\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="lib\Engine\Visualisation\" />
-  </ItemGroup>
-
 </Project>

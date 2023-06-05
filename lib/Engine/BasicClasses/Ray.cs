@@ -9,20 +9,30 @@ namespace CGProject.Engine
 {
     public class Ray
     {
-        CoordinateSystem _coordinateSystem;
-        Point _initPt;
+        readonly CoordinateSystem _coordinateSystem;
+        readonly Point _initPt;
         Vector _dir;
 
-        public Vector Dir { get { return _dir; } }
+        public Vector Dir { get { return _dir; }
+            set { _dir = value; }
+        }
 
         public Point InitPt { get { return _initPt; } }
 
-        public void Rotate3D(float angleX, float angleY, float angleZ)
-        {
-            _dir = (Vector)(Matrix.Rotation(angleX, angleY, angleZ) * _dir);
-        }
-
         public CoordinateSystem CoordinateSystem { get { return _coordinateSystem; } }
+
+        public Ray SpaceSwap(VectorSpace vs)
+        {
+            Vector baseDir = CoordinateSystem.VS.AsBaseVector(_dir);
+            Vector basePt = CoordinateSystem.VS.AsBaseVector(_initPt);
+            Vector baseInitPt = CoordinateSystem.VS.AsBaseVector(CoordinateSystem.InitPoint);
+
+            Vector newDir = vs.AsVectorInBasis(baseDir);
+            Vector newPt = vs.AsVectorInBasis(basePt);
+            Vector newInitPt = vs.AsVectorInBasis(baseInitPt);
+
+            return new Ray(new CoordinateSystem(newInitPt, vs), newPt, newDir);
+        }
 
         public Ray(CoordinateSystem coordinateSystem, Point initPt, Vector dir)
         {
@@ -33,7 +43,7 @@ namespace CGProject.Engine
 
         public void Normalize()
         {
-            _dir = _dir / _coordinateSystem.VS.Length(_dir);
+            _dir /= _coordinateSystem.VS.Length(_dir);
         }
     }
 }

@@ -9,30 +9,17 @@ namespace CGProject.Engine
 {
     public class Game
     {
-        CoordinateSystem _cs;
-        EntityList _entities;
+        readonly CoordinateSystem _cs;
+        readonly ObjectList _obj;
 
         public CoordinateSystem CoordinateSystem { get { return _cs; } }
 
-        public Entity this[Identifier id]
-        {
-            get { return _entities[id]; }
-        }
+        public ObjectList Objects { get => _obj; }
 
-        public Game(CoordinateSystem cs, EntityList entities)
+        public Game(CoordinateSystem cs, ObjectList entities)
         {
             _cs = cs;
-            _entities = entities;
-        }
-
-        public void Push(Entity entity)
-        {
-            _entities.Add(entity);
-        }
-
-        public void Remove(Identifier id)
-        {
-            _entities.Remove(id);
+            _obj = entities;
         }
 
         public void Run() { }

@@ -21,6 +21,12 @@ namespace CGProject.Math
                     this[i, j] = data[i, j];
         }
 
+        public Matrix(params Vector[] vectors) : base(vectors[0].Size, vectors.Length)
+        {
+            
+            
+        }
+
         public Matrix(int n) : base(n, n)
         {
             for (int i = 0; i < n; i++)
