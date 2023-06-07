@@ -1,13 +1,8 @@
 ﻿using CGProject.Math;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CGProject.Engine
 {
-    public class GameCamera : Entity //done
+    public abstract class GameCamera : Entity //done
     {
         Vector? _dir = null;
         Point? _lookAt = null;
@@ -41,6 +36,12 @@ namespace CGProject.Engine
         public Vector? Direction { get => _dir; }
 
         public Tuple<float, float> FoV { get => _fov; }
+
+        public void Rotate3D(float x, float y, float z)
+        {
+            if (_dir == null) return;
+            _dir = (Vector)(Matrix.Rotation(x, y, z) * _dir);
+        }
 
         public Ray[,] GetRays(int hBlocks, int vBlocks)
         {
