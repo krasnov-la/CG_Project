@@ -43,7 +43,7 @@ namespace CGProject.Engine
 
         public void Normalize()
         {
-            _dir /= _coordinateSystem.VS.Length(_dir);
+            _dir = CoordinateSystem.VS.Normalize(_dir);
         }
     }
 }
