@@ -11,21 +11,42 @@ namespace CGProject.Engine
     {
         readonly CoordinateSystem _cs;
         readonly ObjectList _obj;
+        readonly MainLoop loop = new();
+        readonly EventSystem system;
 
         public CoordinateSystem CoordinateSystem { get { return _cs; } }
 
         public ObjectList Objects { get => _obj; }
 
-        public Game(CoordinateSystem cs, ObjectList entities)
+        public Game(CoordinateSystem cs, ObjectList objects)
         {
             _cs = cs;
-            _obj = entities;
+            _obj = objects;
+            system = new(loop);
+            loop.Update += Update;
+            loop.Exit += Exit;
+            loop.KeyPress += KeyPress;
         }
 
-        public void Run() { }
+        public void Run()
+        {
+            loop.Begin();
+        }
 
-        public void Update() { }
+        void KeyPress(object? sender, ConsoleKeyInfo info)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Pressed : {info.KeyChar}" + " " + info.Modifiers);
+        }
 
-        public void Exit() { }
+        void Update(object? sender, EventArgs e)
+        {
+            Console.Write('.');
+        }
+
+        public void Exit(object? sender, EventArgs e)
+        {
+            Console.WriteLine("КОНЕЦ!!!");
+        }
     }
 }

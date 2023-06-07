@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CG_Project.lib.Engine.Visualisation.ObjDescendants
+namespace CGProject.Engine
 {
     public class HyperPlane : GameObject //done
     {
@@ -36,8 +36,8 @@ namespace CG_Project.lib.Engine.Visualisation.ObjDescendants
             float NormalOnPositionsScalarP = VS.ScalarProduct(Normal, RayPosToPlanePos);
 
             float dist;
-            if (Math.Abs(RayDirOnNormalScalarP) < 0.001)
-                if (Math.Abs(NormalOnPositionsScalarP) < 0.001) return 0;
+            if (System.Math.Abs(RayDirOnNormalScalarP) < 0.001)
+                if (System.Math.Abs(NormalOnPositionsScalarP) < 0.001) return 0;
                 else return null;
             else dist = NormalOnPositionsScalarP / RayDirOnNormalScalarP;
 

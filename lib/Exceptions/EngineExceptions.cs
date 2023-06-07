@@ -24,14 +24,9 @@ namespace CGProject
             public InvalidBasisException() : base("Given set of vectors cannot be considered a basis") { }
         }
 
-        public class PropertyTypeException : ApplicationException
+        public class ObjectDefinitionException : ApplicationException
         {
-            public PropertyTypeException() : base("Trying to assign value of incorrect type to Entity property") { }
-        }
-
-        public class NonExistantPropertyException : ApplicationException
-        {
-            public NonExistantPropertyException() : base("Trying to operate on property that does't exist") { }
+            public ObjectDefinitionException() : base("Provided data cannot be used to properly determine object") { }
         }
     }
 }

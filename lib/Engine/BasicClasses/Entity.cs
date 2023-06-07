@@ -11,6 +11,8 @@ namespace CGProject.Engine
 {
     public abstract class Entity
     {
+        public event EventHandler<Point> Moved;
+
         CoordinateSystem _cs;
         Point _pos;
 
