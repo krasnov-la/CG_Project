@@ -41,7 +41,7 @@ namespace CGProject.Engine
                 else return null;
             else dist = NormalOnPositionsScalarP / RayDirOnNormalScalarP;
 
-            return dist >= 0 ? dist : 0;
+            return dist >= 0 ? dist : null;
         }
     }
 }

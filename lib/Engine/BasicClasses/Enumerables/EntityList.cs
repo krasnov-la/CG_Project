@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
 namespace CGProject.Engine
 {
-    public class ObjectList : IEnumerable<GameObject>
+    public class EntityList : IEnumerable<Entity>
     {
         readonly Hashtable _hash = new();
-        public ObjectList() { }
+        public EntityList() { }
 
-        public GameObject? this[Identifier key]
+        public Entity? this[Identifier key]
         {
-            get { return (GameObject?)_hash[key.ID]; }
+            get { return (Entity?)_hash[key.ID]; }
         }
 
-        public void Add(GameObject obj)
+        public void Add(Entity obj)
         {
             _hash.Add(obj.Identifier.ID, obj);
         }
@@ -28,7 +22,7 @@ namespace CGProject.Engine
             _hash.Remove(key.ID);
         }
 
-        public void Remove(GameObject obj)
+        public void Remove(Entity obj)
         {
             _hash.Remove(obj.Identifier.ID);
         }
@@ -38,17 +32,17 @@ namespace CGProject.Engine
             return _hash.Contains(key.ID);
         }
 
-        public GameObject? Get(Identifier key)
+        public Entity? Get(Identifier key)
         {
             if (!_hash.ContainsKey(key.ID))
                 throw new KeyNotFoundException(key.ID);
 
-            return (GameObject?)_hash[key.ID];
+            return (Entity?)_hash[key.ID];
         }
 
-        public void Exec(Action<GameObject> executable)
+        public void Exec(Action<Entity> executable)
         {
-            foreach (GameObject obj in _hash.Values)
+            foreach (Entity obj in _hash.Values)
                 executable(obj);
         }
 
@@ -57,9 +51,9 @@ namespace CGProject.Engine
             return GetEnumerator();
         }
 
-        public IEnumerator<GameObject> GetEnumerator()
+        public IEnumerator<Entity> GetEnumerator()
         {
-            foreach (GameObject obj in _hash.Values)
+            foreach (Entity obj in _hash.Values)
                 yield return obj;
         }
     }
