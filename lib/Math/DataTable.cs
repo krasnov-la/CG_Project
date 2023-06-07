@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Globalization;
-
-namespace CGProject.Math
+﻿namespace CGProject.Math
 {
     public abstract class DataTable
     {
