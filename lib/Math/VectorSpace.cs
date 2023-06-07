@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.InteropServices;
-
-namespace CGProject.Math
+﻿namespace CGProject.Math
 {
     public class VectorSpace
     {
@@ -80,6 +77,11 @@ namespace CGProject.Math
                 result += _basis[i] * point[i];
 
             return result;
+        }
+
+        public Vector Normalize(Vector vector)
+        {
+            return vector / Length(vector);
         }
 
         public Vector AsVectorInBasis(Vector vector)
