@@ -19,8 +19,9 @@
                 }
         }
 
-        public void Add(ConsoleKey key, Tuple<Entity, Action<Entity>> pair) 
+        public void Add(ConsoleKey key, Entity ent, Action<Entity> act) 
         {
+            Tuple<Entity, Action<Entity>> pair = new(ent, act);
             if (!_keyMapping.ContainsKey(key)) _keyMapping[key] = new List<Tuple<Entity, Action<Entity>>> { pair };
             else _keyMapping[key].Add(pair);
         }
