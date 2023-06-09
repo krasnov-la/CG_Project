@@ -21,6 +21,9 @@ namespace CG_Project.Engine
 
                 image.Append('\n');
             }
+            image.Append(cam.Position.ToString());
+            image.Append('\n');
+            image.Append(cam.Direction.ToString());
             Console.Clear();
             Console.Write(image.ToString());
         }
