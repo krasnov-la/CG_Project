@@ -4,19 +4,16 @@
     {
         readonly Dictionary<ConsoleKey, List<Tuple<Entity, Action<Entity>>>> _keyMapping = new();
 
-        public KeyMapper(MainLoop loop)
+        public KeyMapper(Game game)
         {
-            loop.KeyPress += KeyPress;
+            game.KeyPress += KeyPress;
         }
 
         private void KeyPress(object? sender, ConsoleKeyInfo e)
         {
             if (_keyMapping.ContainsKey(e.Key))
                 foreach (var actionPair in _keyMapping[e.Key])
-                {
-                    Action<Entity> act = actionPair.Item2;
-                    if (act != null) act(actionPair.Item1);
-                }
+                    actionPair.Item2?.Invoke(actionPair.Item1);
         }
 
         public void Add(ConsoleKey key, Entity ent, Action<Entity> act) 

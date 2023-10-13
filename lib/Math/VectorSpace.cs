@@ -84,8 +84,13 @@
             return vector / Length(vector);
         }
 
-        public Vector AsVectorInBasis(Vector vector)
+        public Vector AsVectorInBasis(Point point)
         {
+            Vector vector = new Vector(3);
+            for (int i = 0; i < 3; i++)
+            {
+                vector[i] = point[i];
+            }
             Matrix basisSwap = new Matrix(Basis.Length);
 
             for (int i = 0; i < Basis.Length; i++)

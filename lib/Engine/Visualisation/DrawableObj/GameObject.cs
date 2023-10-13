@@ -9,7 +9,6 @@ namespace CGProject.Engine
 {
     public abstract class GameObject : Entity
     {
-        public event EventHandler<Vector> Rotated;
         public GameObject(Game game, Point position) : base(game.CoordinateSystem, position)
         {
             game.Objects.Add(this);    

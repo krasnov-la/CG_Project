@@ -43,6 +43,12 @@ namespace CGProject.Engine
             _dir = (Vector)(Matrix.Rotation(x, y, z) * _dir);
         }
 
+        public void SetDir(Vector vector)
+        {
+            if (vector.Size != 3) throw new EngineExceptions.DimensionException();
+            _dir = vector;
+        }
+
         public Ray[,] GetRays(int hBlocks, int vBlocks)
         {
             Ray[,] rayMatrix = new Ray[hBlocks, vBlocks]; 

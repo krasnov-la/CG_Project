@@ -38,17 +38,20 @@ namespace CGProject.Engine
             float quadraticA = 0;
             float quadraticB = 0;
             float quadraticC = 0;
-            float quadraticD = 0;
+            float squaredAxe;
 
             for (int i = 0; i < _semiAxes.Length; i++)
             {
+                squaredAxe = canonicalVS.Length(_semiAxes[i]) * canonicalVS.Length(_semiAxes[i]);
                 quadraticA += ray.Dir[i] * ray.Dir[i];
                 quadraticB += (ray.InitPt[i] - Position[i]) * ray.Dir[i];
                 quadraticC += (ray.InitPt[i] - Position[i]) * (ray.InitPt[i] - Position[i]);
-                quadraticD += canonicalVS.Length(_semiAxes[i]) * canonicalVS.Length(_semiAxes[i]);
+                quadraticA /= squaredAxe;
+                quadraticB /= squaredAxe;
+                quadraticC /= squaredAxe;
             }
             quadraticB *= 2;
-            quadraticC -= quadraticD;
+            quadraticC -= 1;
 
             float discriminant = quadraticB * quadraticB - 4 * quadraticA * quadraticC;
 
